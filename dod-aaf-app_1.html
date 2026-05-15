@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adaptive Acquisition Framework — Interactive Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f3ec;
+    --paper-2: #efeae1;
+    --ink: #1c1917;
+    --ink-2: #44403c;
+    --ink-3: #78716c;
+    --rule: #d6d3d1;
+    --accent: #7c2d12;
+    --highlight: #fde68a;
+
+    /* pathway colors */
+    --pw-uca: #b91c1c;      /* red — urgent */
+    --pw-mta: #c2410c;      /* orange — middle tier */
+    --pw-mca: #1e40af;      /* deep blue — major */
+    --pw-swp: #6d28d9;      /* violet — software */
+    --pw-dbs: #0f766e;      /* teal — business */
+    --pw-svc: #4d7c0f;      /* olive — services */
+
+    /* service colors */
+    --svc-army:  #4a5d23;
+    --svc-navy:  #1e3a5f;
+    --svc-af:    #5b7c99;
+    --svc-sf:    #2d2d4f;
+    --svc-dw:    #78716c;
+
+    /* appropriation colors */
+    --app-om:    #b45309;
+    --app-mp:    #be185d;
+    --app-proc:  #1e40af;
+    --app-rdte:  #6d28d9;
+    --app-mc:    #4d7c0f;
+
+    --shadow-card: 0 1px 0 rgba(28,25,23,.04), 0 1px 2px rgba(28,25,23,.06);
+    --shadow-panel: -8px 0 32px rgba(28,25,23,.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    background-image: radial-gradient(circle at 1px 1px, rgba(28,25,23,.025) 1px, transparent 0);
+    background-size: 24px 24px; opacity: .6;
+  }
+
+  .app { position: relative; z-index: 2; min-height: 100vh; }
+
+  /* ============ HEADER ============ */
+  header.masthead {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 28px 40px 20px;
+  }
+  .masthead-top {
+    display: flex; align-items: baseline;
+    justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .title-block { max-width: 740px; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-3);
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-size: 34px;
+    line-height: 1.1; letter-spacing: -0.015em;
+    margin: 0 0 8px;
+  }
+  h1 em {
+    font-style: italic;
+    font-variation-settings: "opsz" 144;
+    color: var(--accent);
+  }
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: 16px; color: var(--ink-2);
+    font-style: italic; max-width: 660px; margin: 0 0 6px;
+  }
+  .version-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  .search-wrap {
+    display: flex; align-items: center; gap: 8px;
+    background: white; border: 1px solid var(--rule);
+    border-radius: 4px; padding: 8px 12px;
+    width: 320px; transition: border-color .15s;
+  }
+  .search-wrap:focus-within { border-color: var(--ink); }
+  .search-wrap svg { width: 14px; height: 14px; stroke: var(--ink-3); }
+  .search-wrap input {
+    border: 0; outline: 0; background: transparent;
+    font: inherit; flex: 1; color: var(--ink);
+  }
+  .search-wrap input::placeholder { color: var(--ink-3); }
+  .search-wrap kbd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; color: var(--ink-3);
+    border: 1px solid var(--rule);
+    padding: 1px 5px; border-radius: 3px;
+  }
+
+  /* ============ SECTIONS ============ */
+  section { padding: 28px 40px; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .section-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink); margin: 0;
+  }
+  .section-header .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  /* ============ PATHWAY SELECTOR ============ */
+  .pathway-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  .pathway-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--p-color, var(--ink-3));
+    border-radius: 4px;
+    padding: 14px 14px 16px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .pathway-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(28,25,23,.08);
+  }
+  .pathway-card.active {
+    background: var(--p-color);
+    color: white;
+    border-color: var(--p-color);
+  }
+  .pathway-card.active .pw-statute,
+  .pathway-card.active .pw-timeline { color: rgba(255,255,255,.75); }
+
+  .pw-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--p-color);
+    font-weight: 600; margin-bottom: 4px;
+  }
+  .pathway-card.active .pw-num { color: rgba(255,255,255,.85); }
+
+  .pw-name {
+    font-family: 'Fraunces', serif;
+    font-size: 14px; font-weight: 600;
+    line-height: 1.2; margin-bottom: 6px;
+    min-height: 34px;
+  }
+  .pw-statute {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .pw-timeline {
+    font-size: 11px;
+    color: var(--ink-2);
+    margin-top: 6px;
+  }
+
+  /* ============ PATHWAY DETAIL ============ */
+  .pathway-detail {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-top: 16px;
+  }
+  .pd-header {
+    display: flex; align-items: baseline; gap: 16px;
+    flex-wrap: wrap; margin-bottom: 4px;
+  }
+  .pd-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--p-color);
+    margin: 0;
+  }
+  .pd-tagline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+    letter-spacing: 0.05em;
+  }
+  .pd-desc {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 760px;
+    margin: 8px 0 24px;
+  }
+
+  /* Phase flow */
+  .phase-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 20px 0 8px;
+    overflow-x: auto;
+  }
+  .phase-step {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    background: var(--paper-2);
+    border-right: 1px solid var(--rule);
+    cursor: pointer;
+    position: relative;
+    transition: background .15s;
+    min-height: 88px;
+  }
+  .phase-step:first-child { border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+  .phase-step:last-child { border-right: 0; border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+  .phase-step:hover { background: #e8e2d6; }
+  .phase-step.cyclical:last-child::after {
+    content: '↻';
+    position: absolute; right: 8px; top: 8px;
+    font-size: 14px; color: var(--p-color);
+  }
+
+  .ps-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.15em;
+    color: var(--ink-3); margin-bottom: 4px;
+  }
+  .ps-name {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; font-weight: 600;
+    line-height: 1.2; margin-bottom: 4px;
+  }
+  .ps-purpose {
+    font-size: 10.5px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+
+  /* Decision gates between phases */
+  .gates-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 0;
+    padding: 16px 0 8px;
+    position: relative;
+  }
+  .gate-spacer { flex: 1; }
+  .gate {
+    flex: 0 0 auto;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+    cursor: pointer;
+    margin: 0 -10px;
+  }
+  .gate-diamond {
+    width: 18px; height: 18px;
+    background: var(--paper);
+    border: 1.5px solid var(--p-color);
+    transform: rotate(45deg);
+    transition: all .15s;
+  }
+  .gate:hover .gate-diamond { background: var(--p-color); }
+  .gate-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  /* Functional areas */
+  .functional-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .fa-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--p-color);
+    padding: 10px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .fa-card:hover { background: var(--paper-2); }
+  .fa-name {
+    font-family: 'Fraunces', serif;
+    font-size: 12.5px; font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .fa-detail {
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+
+  /* ============ BUDGET SECTION ============ */
+  .budget-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 32px;
+  }
+  .budget-col h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-2);
+    margin: 0 0 4px; font-weight: 600;
+  }
+  .budget-col .col-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; color: var(--ink-3);
+    font-style: italic;
+    margin: 0 0 18px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 90px;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--paper-2);
+    cursor: help;
+  }
+  .bar-row:last-child { border-bottom: 0; }
+  .bar-label {
+    font-size: 12.5px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .bar-label .bar-code {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+  }
+  .bar-track {
+    height: 22px;
+    background: var(--paper-2);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--b-color);
+    transition: width 1s cubic-bezier(.2,.8,.2,1);
+    width: 0;
+  }
+  .bar-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    color: var(--ink); text-align: right;
+  }
+  .bar-value .bar-pct {
+    display: block;
+    font-size: 10px;
+    color: var(--ink-3);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+
+  .budget-summary {
+    margin-top: 24px;
+    padding: 14px 16px;
+    background: var(--paper);
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .budget-summary strong { color: var(--ink); font-weight: 600; }
+  .budget-summary .summary-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+
+  /* ============ ACRONYM TOOLTIP ============ */
+  .acronym {
+    border-bottom: 1px dotted var(--ink-3);
+    cursor: help;
+  }
+  #acronym-tooltip {
+    position: fixed;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    max-width: 280px;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .15s;
+    box-shadow: 0 8px 24px rgba(28,25,23,.2);
+  }
+  #acronym-tooltip.visible { opacity: 1; }
+  #acronym-tooltip .at-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: rgba(247,243,236,.6);
+    margin-bottom: 2px; display: block;
+  }
+  #acronym-tooltip .at-full {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  /* ============ DETAIL PANEL ============ */
+  .detail-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 480px;
+    background: var(--paper);
+    border-left: 1px solid var(--rule);
+    box-shadow: var(--shadow-panel);
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    overflow-y: auto;
+    display: flex; flex-direction: column;
+  }
+  .detail-panel.open { transform: translateX(0); }
+  .detail-header {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 2;
+  }
+  .detail-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .detail-tag .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .detail-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    line-height: 1.2; margin: 0 0 6px;
+  }
+  .detail-subtitle { font-size: 13px; color: var(--ink-2); }
+  .close-btn {
+    position: absolute; top: 20px; right: 20px;
+    background: transparent; border: 0;
+    cursor: pointer; padding: 6px; color: var(--ink-3);
+  }
+  .close-btn:hover { color: var(--ink); }
+  .detail-body { padding: 20px 28px 40px; }
+  .detail-body p {
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .detail-body h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-3);
+    margin: 24px 0 10px; font-weight: 500;
+  }
+  .doc-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .doc-list li {
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .doc-list li .doc-code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--ink);
+    background: var(--paper-2);
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-right: 8px;
+  }
+
+  /* ============ FOOTER ============ */
+  footer.colophon {
+    border-top: 1px solid var(--rule);
+    padding: 24px 40px;
+    color: var(--ink-3);
+    font-size: 11px;
+    line-height: 1.6;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer.colophon strong { color: var(--ink-2); font-weight: 500; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1100px) {
+    .pathway-grid { grid-template-columns: repeat(3, 1fr); }
+    .budget-wrap { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 700px) {
+    header.masthead, section { padding-left: 20px; padding-right: 20px; }
+    h1 { font-size: 26px; }
+    .search-wrap { width: 100%; }
+    .pathway-grid { grid-template-columns: repeat(2, 1fr); }
+    .detail-panel { width: 100%; }
+    .phase-flow { flex-direction: column; }
+    .phase-step { border-right: 0; border-bottom: 1px solid var(--rule); }
+    .bar-row { grid-template-columns: 120px 1fr 80px; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ========== HEADER ========== -->
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="title-block">
+      <p class="eyebrow">DoD acquisition policy · interactive reference</p>
+      <h1>The <em>Adaptive</em> Acquisition Framework</h1>
+      <p class="subtitle">Six tailorable pathways for fielding capability — a successor to the single waterfall lifecycle that ran from 1971 to 2020.</p>
+      <p class="version-note">Based on DoDD 5000.01 (Sept 9, 2020) and DoDI 5000.02 (Jan 23, 2020)</p>
+    </div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/>
+      </svg>
+      <input id="search" type="text" placeholder="Search pathways, acronyms…">
+      <kbd>/</kbd>
+    </div>
+  </div>
+</header>
+
+<!-- ========== PATHWAY SELECTOR ========== -->
+<section>
+  <div class="section-header">
+    <h2>Six acquisition pathways</h2>
+    <span class="meta">·  pick one to expand</span>
+  </div>
+  <div class="pathway-grid" id="pathway-grid"></div>
+  <div class="pathway-detail" id="pathway-detail"></div>
+</section>
+
+<!-- ========== BUDGET ========== -->
+<section>
+  <div class="section-header">
+    <h2>FY 2026 budget context</h2>
+    <span class="meta">·  $961.6 B requested for DoD (part of $1.01 T national defense)</span>
+  </div>
+  <div class="budget-wrap">
+    <div class="budget-col">
+      <h3>By military department</h3>
+      <p class="col-sub">President's FY 2026 budget request</p>
+      <div id="budget-by-service"></div>
+    </div>
+    <div class="budget-col">
+      <h3>By appropriation type</h3>
+      <p class="col-sub">Approximate share of discretionary funding</p>
+      <div id="budget-by-approp"></div>
+      <div class="budget-summary">
+        <div class="summary-label">FY26 movement vs FY25</div>
+        <strong>RDT&amp;E</strong> +27% · <strong>Procurement</strong> +18% · <strong>O&amp;M</strong> +5%. Heavy reconciliation reliance ($113 B from P.L. 119-21) drives a procurement-heavy mix; recurring O&amp;M still the largest single category.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="colophon">
+  <div>
+    <strong>Sources:</strong> DoDI 5000.02 "Operation of the Adaptive Acquisition Framework" (Jan 2020) ·
+    Pathway-specific instructions 5000.74 / .75 / .80 / .81 / .85 / .87 ·
+    FY 2026 budget figures from OUSD(C) and CRS reports.
+    <br>
+    <strong>Naming:</strong> EO 14347 (Sept 5, 2025) authorized "Department of War" as a secondary designation; the statutory name remains Department of Defense pending congressional action.
+  </div>
+  <div><strong>Prototype</strong> · v2 · single-file demo</div>
+</footer>
+
+</div>
+
+<!-- ========== DETAIL PANEL ========== -->
+<aside class="detail-panel" id="panel">
+  <div class="detail-header">
+    <button class="close-btn" id="close-panel" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6 6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="detail-tag" id="panel-tag"></div>
+    <h2 class="detail-title" id="panel-title"></h2>
+    <div class="detail-subtitle" id="panel-subtitle"></div>
+  </div>
+  <div class="detail-body" id="panel-body"></div>
+</aside>
+
+<div id="acronym-tooltip">
+  <span class="at-name" id="at-name"></span>
+  <div class="at-full" id="at-full"></div>
+  <div id="at-def"></div>
+</div>
+
+<script>
+// ============================================================================
+// DATA MODEL — Adaptive Acquisition Framework
+// ============================================================================
+
+const PATHWAYS = [
+  {
+    id: 'uca',
+    num: '01',
+    name: 'Urgent Capability Acquisition',
+    statute: 'DoDI 5000.81',
+    timeline: '< 2 years',
+    color: '--pw-uca',
+    tagline: 'Urgent or emergent operational needs',
+    desc: 'For capabilities responding to needs identified by combatant commanders in ongoing contingencies or emergent operational threats. Aggressively streamlined; bypasses much of standard JCIDS.',
+    phases: [
+      { n: '1', name: 'Pre-Development', purpose: 'Validate the urgent need, define solution approach, establish funding.' },
+      { n: '2', name: 'Development', purpose: 'Rapid design and integration. Minimal documentation. May overlap with production.' },
+      { n: '3', name: 'Production & Deployment', purpose: 'Field the capability to the requesting commander. Typically small quantities.' },
+      { n: '4', name: 'Operations & Support', purpose: 'Sustain in theater; later disposition decision — transition, terminate, or extend.' }
+    ],
+    gates: [],
+    functionalAreas: [
+      { name: 'Operational Need Validation', detail: 'Combatant commander identifies the urgent need; validated by Joint Staff or component sponsor.' },
+      { name: 'Tailored Acquisition Strategy', detail: 'Streamlined acquisition strategy approved by the MDA, often within days/weeks.' },
+      { name: 'Disposition Decision', detail: 'After 2 years or end of need: transition to MCA, terminate, or sustain as enduring capability.' }
+    ]
+  },
+  {
+    id: 'mta',
+    num: '02',
+    name: 'Middle Tier of Acquisition',
+    statute: 'DoDI 5000.80',
+    timeline: '< 5 years',
+    color: '--pw-mta',
+    tagline: 'Rapid prototyping or rapid fielding',
+    desc: 'Two flavors: Rapid Prototyping fields a demonstrable prototype within 5 years; Rapid Fielding begins production within 6 months and completes fielding within 5 years using proven technology. Exempt from JCIDS.',
+    phases: [
+      { n: '1', name: 'Requirements', purpose: 'Sponsor-validated requirement — not subject to JCIDS. Section 804 / FY16 NDAA authority.' },
+      { n: '2', name: 'Acquisition Strategy', purpose: 'MDA-approved strategy tailored to the chosen path (prototyping vs fielding).' },
+      { n: '3', name: 'Rapid Prototyping  /  Rapid Fielding', purpose: 'Prototype demonstrable in operational environment, OR begin production ≤ 6 months. Both: complete ≤ 5 years.' },
+      { n: '4', name: 'Transition or Sustainment', purpose: 'Transition to MCA, sustain as residual capability, or terminate. Decision before 5-year limit.' }
+    ],
+    gates: [],
+    functionalAreas: [
+      { name: 'Section 804 Authority', detail: 'FY16 NDAA §804 created MTA. Codified in 10 USC 4023 and implemented by DoDI 5000.80.' },
+      { name: 'Rapid Prototyping option', detail: 'Field a prototype in operational environment within 5 years. Residual capability allowed.' },
+      { name: 'Rapid Fielding option', detail: 'Begin production within 6 months of program start. Complete fielding within 5 years.' }
+    ]
+  },
+  {
+    id: 'mca',
+    num: '03',
+    name: 'Major Capability Acquisition',
+    statute: 'DoDI 5000.85',
+    timeline: 'Multi-year, ACAT-tiered',
+    color: '--pw-mca',
+    tagline: 'The traditional waterfall — successor to v5.4',
+    desc: 'For acquiring and modernizing military-unique programs that provide enduring capability. Tailorable, but retains the milestone-gated structure familiar from the pre-2020 framework.',
+    phases: [
+      { n: '1', name: 'Materiel Solution Analysis', purpose: 'Assess potential materiel solutions to the capability need; AoA; estimate LCC.' },
+      { n: '2', name: 'Technology Maturation & Risk Reduction', purpose: 'Reduce technology risk; mature technologies; competitive prototyping prior to MS B.' },
+      { n: '3', name: 'Engineering & Manufacturing Development', purpose: 'Develop the system; full integration; mature manufacturing; demonstrate operational supportability.' },
+      { n: '4', name: 'Production & Deployment', purpose: 'LRIP → IOT&E → FRP. Deliver fully funded quantity to users.' },
+      { n: '5', name: 'Operations & Support', purpose: 'Sustain the system at materiel readiness; PBL; eventual disposal.' }
+    ],
+    gates: [
+      { id: 'mdd',   name: 'MDD',    full: 'Materiel Development Decision',
+        desc: 'Mandatory entry point. Authorizes formal AoA.' },
+      { id: 'msa',   name: 'MS A',   full: 'Milestone A',
+        desc: 'Enters TMRR. Requires Technology Development Strategy.' },
+      { id: 'msb',   name: 'MS B',   full: 'Milestone B',
+        desc: 'Program initiation. Enters EMD. The most documentation-heavy gate.' },
+      { id: 'msc',   name: 'MS C',   full: 'Milestone C',
+        desc: 'Authorizes Low-Rate Initial Production.' },
+      { id: 'frpdr', name: 'FRP DR', full: 'Full-Rate Production Decision Review',
+        desc: 'Authorizes Full-Rate Production. Requires successful IOT&E and Beyond-LRIP Report.' },
+      { id: 'ioc',   name: 'IOC',    full: 'Initial Operational Capability',
+        desc: 'First operational unit equipped and trained.' }
+    ],
+    functionalAreas: [
+      { name: 'JCIDS Requirements', detail: 'ICD → CDD → CPD chain validated by JROC; KPPs and KSAs track through.' },
+      { name: 'Systems Engineering', detail: 'Per DoDI 5000.88; SEP at each milestone; technical reviews (SRR, SFR, PDR, CDR).' },
+      { name: 'Test & Evaluation', detail: 'Per DoDI 5000.89; TEMP, DT&E, OT&E, LFT&E; integrated when feasible.' },
+      { name: 'Life Cycle Sustainment', detail: 'Per DoDI 5000.91; LCSP; PBL preferred; Product Support Manager required.' },
+      { name: 'Cost & Resource Mgmt', detail: 'ICE for MDAPs at each milestone; affordability cap; FYDP funding required for production.' },
+      { name: 'Cybersecurity', detail: 'Per DoDI 5000.90; cyber survivability integrated from MS A onward; RMF authorization required.' }
+    ]
+  },
+  {
+    id: 'swp',
+    num: '04',
+    name: 'Software Acquisition Pathway',
+    statute: 'DoDI 5000.87',
+    timeline: 'Continuous · ≤ 1 year to MVCR',
+    color: '--pw-swp',
+    tagline: 'For custom and modified software systems',
+    desc: 'Preferred path for software-intensive systems. Iterative, modern DevSecOps. No traditional milestones — replaced by capability-need and execution phases with continuous delivery. Minimum Viable Capability Release within 1 year of approval.',
+    phases: [
+      { n: '1', name: 'Planning', purpose: 'Capability Needs Statement; user engagement; cost estimate. Ends with approval to enter execution.' },
+      { n: '2', name: 'Execution  ↻', purpose: 'Iterative development & delivery. MVCR within 1 year. Continuous user feedback drives backlog.' }
+    ],
+    gates: [
+      { id: 'auth', name: 'AoP', full: 'Authority to Proceed', desc: 'Decision Authority approves entry to Execution phase.' },
+      { id: 'mvcr', name: 'MVCR', full: 'Minimum Viable Capability Release', desc: 'First operationally useful release. Required within 1 year of AoP.' }
+    ],
+    functionalAreas: [
+      { name: 'Applications Path', detail: 'For business systems and software running on commercial hardware/cloud.' },
+      { name: 'Embedded Path', detail: 'For software integrated into HW platforms (weapons, vehicles, sensors).' },
+      { name: 'Continuous ATO', detail: 'Replaces traditional RMF with continuous authorization; cybersecurity built into pipeline.' },
+      { name: 'Value Assessment', detail: 'Replaces traditional milestone reviews with periodic value-stream and cost/schedule reviews.' }
+    ]
+  },
+  {
+    id: 'dbs',
+    num: '05',
+    name: 'Defense Business Systems',
+    statute: 'DoDI 5000.75',
+    timeline: 'Cyclical · BCAC',
+    color: '--pw-dbs',
+    tagline: 'Information systems supporting DoD business ops',
+    desc: 'For business systems — financial, logistics, HR, procurement. Uses the Business Capability Acquisition Cycle: a recurring loop emphasizing COTS, configuration over development, and incremental fielding.',
+    phases: [
+      { n: '1', name: 'Business Need', purpose: 'Identify problem and validate it merits an IT solution.' },
+      { n: '2', name: 'Solution Analysis', purpose: 'Evaluate alternatives — typically commercial / SaaS options first.' },
+      { n: '3', name: 'Functional Requirements', purpose: 'Define what the system must do; align to enterprise architecture.' },
+      { n: '4', name: 'Acquisition, Testing & Deployment', purpose: 'Acquire (often via existing contract), configure, test, field incrementally.' },
+      { n: '5', name: 'Capability Support  ↻', purpose: 'Sustain; identify new needs → restart the cycle.', cyclical: true }
+    ],
+    gates: [
+      { id: 'atp1', name: 'ATP-1', full: 'Authority to Proceed 1', desc: 'Enter Solution Analysis.' },
+      { id: 'atp2', name: 'ATP-2', full: 'Authority to Proceed 2', desc: 'Enter Functional Requirements.' },
+      { id: 'atp3', name: 'ATP-3', full: 'Authority to Proceed 3', desc: 'Enter Acquisition, Testing & Deployment.' },
+      { id: 'atp4', name: 'ATP-4', full: 'Authority to Proceed 4', desc: 'Enter Capability Support.' }
+    ],
+    functionalAreas: [
+      { name: 'COTS-first', detail: 'Default to commercial off-the-shelf; modify business processes to fit the tool, not vice versa.' },
+      { name: 'DBS Certification', detail: 'Modernizations > $50M lifecycle require certification by Defense Business Council.' },
+      { name: 'Incremental Capability', detail: 'No big-bang releases — capability fielded in usable increments.' }
+    ]
+  },
+  {
+    id: 'svc',
+    num: '06',
+    name: 'Acquisition of Services',
+    statute: 'DoDI 5000.74',
+    timeline: 'Continuous · contract cycle',
+    color: '--pw-svc',
+    tagline: 'Knowledge-based and other contracted services',
+    desc: 'For services acquired by or for DoD — IT services, advisory, R&D services, facilities-related, logistics. Largest share of DoD contract dollars. Performance-based contracting preferred.',
+    phases: [
+      { n: '1', name: 'Plan', purpose: 'Define the service requirement; market research; choose contract type and competition strategy.' },
+      { n: '2', name: 'Develop', purpose: 'Draft PWS or SOO; release RFP; source selection; contract award.' },
+      { n: '3', name: 'Execute  ↻', purpose: 'Manage contract performance; QASP; reviews; rebid or recompete at end of period.', cyclical: true }
+    ],
+    gates: [],
+    functionalAreas: [
+      { name: 'Performance-Based', detail: 'PBA / PBSA preferred. Pay for outcomes, not labor hours.' },
+      { name: 'Category Mgmt', detail: 'OMB-driven approach — aggregate buying across the government for common services.' },
+      { name: 'Services Designation', detail: 'Categorized by services taxonomy (S-CAT I/II/III) — drives oversight level.' }
+    ]
+  }
+];
+
+const BUDGET_FY26 = {
+  totalDoD: 961.6,       // discretionary + reconciliation
+  totalNationalDefense: 1010,  // includes DOE nuclear, etc.
+
+  byService: [
+    { name: 'Department of the Navy',    detail: 'incl. Marine Corps', amount: 292.2, color: '--svc-navy' },
+    { name: 'Department of the Air Force', detail: 'USAF only',           amount: 209.6, color: '--svc-af' },
+    { name: 'Department of the Army',    detail: '',                    amount: 197.4, color: '--svc-army' },
+    { name: 'Defense-wide',              detail: 'OSD, DLA, DARPA, etc.', amount: 170.9, color: '--svc-dw' },
+    { name: 'United States Space Force', detail: 'under Dept of AF',     amount: 39.9,  color: '--svc-sf' }
+  ],
+
+  byAppropriation: [
+    { name: 'Operation & Maintenance', code: 'O&M',     pct: 39, color: '--app-om',
+      desc: 'Operating costs — depot maintenance, training, base ops, fuel, civilian pay, contract services.' },
+    { name: 'Military Personnel',      code: 'MILPERS', pct: 21, color: '--app-mp',
+      desc: 'Pay, allowances, bonuses, retirement accrual, PCS for active and reserve personnel.' },
+    { name: 'Procurement',             code: 'PROC',    pct: 20, color: '--app-proc',
+      desc: 'Investment items — aircraft, ships, vehicles, weapons, ammunition, IT equipment.' },
+    { name: 'Research, Development, Test & Evaluation', code: 'RDT&E', pct: 17, color: '--app-rdte',
+      desc: 'BA 1–7: basic research through operational systems development. Funds the entire acquisition pipeline.' },
+    { name: 'Military Construction & Family Housing', code: 'MILCON', pct: 2, color: '--app-mc',
+      desc: 'Facilities, family housing, BRAC. ~2% of discretionary.' }
+  ]
+};
+
+const ACRONYMS = {
+  'AAF':    { full: 'Adaptive Acquisition Framework', def: 'The current six-pathway DoD acquisition framework, defined in DoDI 5000.02 (Jan 2020).' },
+  'MDD':    { full: 'Materiel Development Decision', def: 'Mandatory entry point for the Major Capability Acquisition pathway.' },
+  'MS':     { full: 'Milestone', def: 'A major decision point separating phases in the MCA pathway.' },
+  'MCA':    { full: 'Major Capability Acquisition', def: 'AAF pathway for enduring military-unique capabilities (DoDI 5000.85).' },
+  'MTA':    { full: 'Middle Tier of Acquisition', def: 'AAF pathway for rapid prototyping or rapid fielding (DoDI 5000.80).' },
+  'UCA':    { full: 'Urgent Capability Acquisition', def: 'AAF pathway for urgent or emergent operational needs (DoDI 5000.81).' },
+  'DBS':    { full: 'Defense Business Systems', def: 'AAF pathway for business IT systems (DoDI 5000.75).' },
+  'BCAC':   { full: 'Business Capability Acquisition Cycle', def: 'Cyclical process used by the DBS pathway.' },
+  'ATP':    { full: 'Authority to Proceed', def: 'Decision gates within DBS and Software pathways.' },
+  'MVCR':   { full: 'Minimum Viable Capability Release', def: 'First operationally useful software release; required within 1 year of AoP under SWP.' },
+  'AoP':    { full: 'Authority to Proceed', def: 'Decision Authority approval to enter the Execution phase of the Software pathway.' },
+  'LRIP':   { full: 'Low-Rate Initial Production', def: 'Limited production supporting IOT&E. Statutory quantity limit applies.' },
+  'FRP':    { full: 'Full-Rate Production', def: 'Full production and deployment after successful FRP Decision Review.' },
+  'IOC':    { full: 'Initial Operational Capability', def: 'First attainment of capability by an operational unit.' },
+  'FOC':    { full: 'Full Operational Capability', def: 'Full capability achieved across the planned force.' },
+  'AoA':    { full: 'Analysis of Alternatives', def: 'Required analysis of materiel solutions; supports MS A in MCA.' },
+  'APB':    { full: 'Acquisition Program Baseline', def: 'Cost, schedule, and performance control parameters set at MS B.' },
+  'MDA':    { full: 'Milestone Decision Authority', def: 'Official authorized to approve milestone decisions.' },
+  'JCIDS':  { full: 'Joint Capabilities Integration & Development System', def: 'DoD requirements process — applies to MCA but largely bypassed by other AAF pathways.' },
+  'JROC':   { full: 'Joint Requirements Oversight Council', def: 'Validates and approves JCIDS documents for joint programs.' },
+  'ICD':    { full: 'Initial Capabilities Document', def: 'JCIDS document defining the capability gap; supports MDD and MS A.' },
+  'CDD':    { full: 'Capability Development Document', def: 'JCIDS document supporting MS B program initiation.' },
+  'CPD':    { full: 'Capability Production Document', def: 'JCIDS document supporting MS C.' },
+  'TMRR':   { full: 'Technology Maturation & Risk Reduction', def: 'Renamed Technology Development phase in the current MCA pathway.' },
+  'EMD':    { full: 'Engineering & Manufacturing Development', def: 'Phase 3 of MCA — full system development and integration.' },
+  'TDS':    { full: 'Technology Development Strategy', def: 'Required to enter Technology Maturation & Risk Reduction.' },
+  'TEMP':   { full: 'Test & Evaluation Master Plan', def: 'Plan governing all DT&E, OT&E, and LFT&E for a program.' },
+  'SEP':    { full: 'Systems Engineering Plan', def: 'Living document defining SE activities; required at each MCA milestone.' },
+  'LCSP':   { full: 'Life Cycle Sustainment Plan', def: 'Plan for executing the product support strategy.' },
+  'PBL':    { full: 'Performance-Based Logistics', def: 'DoD-preferred product support model — buy outcomes, not transactions.' },
+  'DT&E':   { full: 'Developmental Test & Evaluation', def: 'Technical testing of system performance.' },
+  'OT&E':   { full: 'Operational Test & Evaluation', def: 'Field testing under realistic conditions.' },
+  'IOT&E':  { full: 'Initial Operational Test & Evaluation', def: 'OT&E on production articles gating the FRP decision.' },
+  'LFT&E':  { full: 'Live Fire Test & Evaluation', def: 'Statutorily required for covered systems before Beyond-LRIP.' },
+  'ACAT':   { full: 'Acquisition Category', def: 'Tiering (I/II/III) determining oversight level for MCA programs.' },
+  'MDAP':   { full: 'Major Defense Acquisition Program', def: 'Largest acquisition programs — ACAT I.' },
+  'ICE':    { full: 'Independent Cost Estimate', def: 'Required for MDAPs at each milestone; conducted by CAPE.' },
+  'CAPE':   { full: 'Cost Assessment & Program Evaluation', def: 'OSD office conducting independent cost estimates.' },
+  'RDT&E':  { full: 'Research, Development, Test & Evaluation', def: 'Appropriation funding R&D — seven budget activities (BA-1 through BA-7).' },
+  'O&M':    { full: 'Operation & Maintenance', def: 'Appropriation funding day-to-day operating costs.' },
+  'MILPERS':{ full: 'Military Personnel', def: 'Appropriation funding active and reserve personnel pay and allowances.' },
+  'MILCON': { full: 'Military Construction', def: 'Appropriation funding major facility construction.' },
+  'PPBE':   { full: 'Planning, Programming, Budgeting & Execution', def: 'DoD\'s annual calendar-driven resource allocation process.' },
+  'POM':    { full: 'Program Objectives Memorandum', def: 'Five-year program proposal submitted by services to OSD.' },
+  'FYDP':   { full: 'Future Years Defense Program', def: 'DoD database of approved programs and resources over five years.' },
+  'NDAA':   { full: 'National Defense Authorization Act', def: 'Annual law authorizing DoD activities and policies.' },
+  'WSARA':  { full: 'Weapon Systems Acquisition Reform Act of 2009', def: 'Required competitive prototyping before MS B; created CAPE.' },
+  'PWS':    { full: 'Performance Work Statement', def: 'SOW for performance-based service acquisitions.' },
+  'SOO':    { full: 'Statement of Objectives', def: 'High-level objectives; contractor proposes PWS in response.' },
+  'PBA':    { full: 'Performance-Based Agreement', def: 'Outcome-based contract or sustainment agreement.' },
+  'PBSA':   { full: 'Performance-Based Service Acquisition', def: 'Performance-based contracting for services.' },
+  'QASP':   { full: 'Quality Assurance Surveillance Plan', def: 'Plan for monitoring service-contract performance.' },
+  'SaaS':   { full: 'Software as a Service', def: 'Commercial cloud-delivered software — preferred under DBS pathway.' },
+  'COTS':   { full: 'Commercial Off-The-Shelf', def: 'Commercially available products; DBS pathway defaults to COTS.' },
+  'RMF':    { full: 'Risk Management Framework', def: 'NIST/DoD cybersecurity authorization framework (DoDI 8510.01).' },
+  'ATO':    { full: 'Authority to Operate', def: 'Authorization required to connect a system to DoD networks. SWP uses Continuous ATO.' },
+  'DevSecOps': { full: 'Development, Security, Operations', def: 'Software practice integrating security and ops with development.' },
+  'P-CDRA': { full: 'Post-CDR Assessment', def: 'MDA assessment after Critical Design Review.' },
+  'CDR':    { full: 'Critical Design Review', def: 'Evaluates detailed design completeness; establishes initial product baseline.' },
+  'PDR':    { full: 'Preliminary Design Review', def: 'Confirms preliminary design meets requirements.' },
+  'KPP':    { full: 'Key Performance Parameter', def: 'Required system attribute with threshold/objective values.' },
+  'KSA':    { full: 'Key System Attribute', def: 'Important but non-KPP attribute (e.g., Reliability, Ownership Cost).' },
+  'BLRIP':  { full: 'Beyond Low-Rate Initial Production', def: 'DOT&E report on IOT&E required before FRP.' },
+  'DOT&E':  { full: 'Director, Operational Test & Evaluation', def: 'Independent OT&E oversight authority.' },
+  'OSD':    { full: 'Office of the Secretary of Defense', def: 'Civilian leadership of DoD; now also "Office of the Secretary of War" per EO 14347.' },
+  'DoD':    { full: 'Department of Defense', def: 'Statutory name. Per EO 14347 (Sept 2025) may also be called Department of War in non-statutory contexts.' },
+  'EO':     { full: 'Executive Order', def: 'Presidential directive carrying force of law within the executive branch.' },
+  'DoDD':   { full: 'DoD Directive', def: 'Top-level DoD policy — 5000.01 governs the Defense Acquisition System.' },
+  'DoDI':   { full: 'DoD Instruction', def: 'Implementing instruction — 5000.02 defines the AAF.' },
+  'CJCS':   { full: 'Chairman of the Joint Chiefs of Staff', def: 'Oversees JCIDS via CJCSI 3170.01 series.' },
+  'DAU':    { full: 'Defense Acquisition University', def: 'DoD\'s training institution for the acquisition workforce.' },
+  'CRS':    { full: 'Congressional Research Service', def: 'Legislative branch agency providing policy analysis to Congress.' },
+  'CBO':    { full: 'Congressional Budget Office', def: 'Nonpartisan agency producing budget analyses for Congress.' },
+  'GAO':    { full: 'Government Accountability Office', def: 'Legislative branch audit and evaluation agency.' },
+  'OMB':    { full: 'Office of Management and Budget', def: 'Executive office overseeing federal budget execution.' },
+  'PCA':    { full: 'Physical Configuration Audit', def: 'Audit establishing the product baseline at an early production CI.' },
+  'FCA':    { full: 'Functional Configuration Audit', def: 'Audit verifying subsystems perform required design functions.' },
+  'JCB':    { full: 'Joint Capabilities Board', def: 'Reviews and validates JCIDS documents for the JROC.' },
+  'FCB':    { full: 'Functional Capabilities Board', def: 'Joint Staff body reviewing capability proposals by functional area.' }
+};
+
+// ============================================================================
+// RENDERING
+// ============================================================================
+
+let activePathwayId = 'mca';
+
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function withAcronyms(text) {
+  return text.replace(/\b([A-Z][A-Za-z]*[A-Z&]+(?:-\d)?)\b/g, (match) => {
+    if (ACRONYMS[match]) {
+      return `<span class="acronym" data-acronym="${match}">${match}</span>`;
+    }
+    return match;
+  });
+}
+
+function renderPathwayGrid() {
+  const grid = document.getElementById('pathway-grid');
+  grid.innerHTML = PATHWAYS.map(pw => `
+    <div class="pathway-card ${pw.id === activePathwayId ? 'active' : ''}"
+         style="--p-color: ${cssVar(pw.color)}"
+         data-pathway="${pw.id}">
+      <div class="pw-num">${pw.num}</div>
+      <div class="pw-name">${pw.name}</div>
+      <div class="pw-statute">${pw.statute}</div>
+      <div class="pw-timeline">${pw.timeline}</div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.pathway-card').forEach(card => {
+    card.addEventListener('click', () => {
+      activePathwayId = card.dataset.pathway;
+      renderPathwayGrid();
+      renderPathwayDetail();
+    });
+  });
+}
+
+function renderPathwayDetail() {
+  const pw = PATHWAYS.find(p => p.id === activePathwayId);
+  const detail = document.getElementById('pathway-detail');
+  const color = cssVar(pw.color);
+
+  detail.style.setProperty('--p-color', color);
+
+  // Build gates row (positioned between phases)
+  let gatesHtml = '';
+  if (pw.gates && pw.gates.length > 0) {
+    gatesHtml = '<div class="gates-row">';
+    const totalGates = pw.gates.length;
+    const totalPhases = pw.phases.length;
+    // Place gates evenly across phase boundaries
+    for (let i = 0; i < totalGates; i++) {
+      gatesHtml += `<div class="gate-spacer"></div>`;
+      gatesHtml += `<div class="gate" data-gate-idx="${i}" title="${pw.gates[i].full}">
+        <div class="gate-diamond"></div>
+        <div class="gate-label">${pw.gates[i].name}</div>
+      </div>`;
+    }
+    gatesHtml += '<div class="gate-spacer"></div></div>';
+  }
+
+  detail.innerHTML = `
+    <div class="pd-header">
+      <h3 class="pd-title">${pw.name}</h3>
+      <span class="pd-tagline">${pw.statute} · ${pw.timeline}</span>
+    </div>
+    <p class="pd-desc">${pw.tagline}. ${withAcronyms(pw.desc)}</p>
+
+    <div class="phase-flow">
+      ${pw.phases.map((ph, i) => `
+        <div class="phase-step ${ph.cyclical ? 'cyclical' : ''}" data-phase-idx="${i}">
+          <div class="ps-num">PHASE ${ph.n}</div>
+          <div class="ps-name">${ph.name}</div>
+          <div class="ps-purpose">${withAcronyms(ph.purpose)}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    ${gatesHtml}
+
+    <h3 style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:24px 0 12px;font-weight:600;">
+      Key functional areas &amp; characteristics
+    </h3>
+    <div class="functional-grid">
+      ${pw.functionalAreas.map((fa, i) => `
+        <div class="fa-card" data-fa-idx="${i}">
+          <div class="fa-name">${fa.name}</div>
+          <div class="fa-detail">${withAcronyms(fa.detail)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Wire up gates
+  detail.querySelectorAll('.gate').forEach(g => {
+    g.addEventListener('click', () => {
+      const idx = +g.dataset.gateIdx;
+      openGate(pw, pw.gates[idx]);
+    });
+  });
+
+  // Wire up phases
+  detail.querySelectorAll('.phase-step').forEach(p => {
+    p.addEventListener('click', () => {
+      const idx = +p.dataset.phaseIdx;
+      openPhase(pw, pw.phases[idx]);
+    });
+  });
+
+  // Wire up functional areas
+  detail.querySelectorAll('.fa-card').forEach(c => {
+    c.addEventListener('click', () => {
+      const idx = +c.dataset.faIdx;
+      openFA(pw, pw.functionalAreas[idx]);
+    });
+  });
+}
+
+// ============================================================================
+// BUDGET RENDERING
+// ============================================================================
+
+function renderBudget() {
+  // By service
+  const maxService = Math.max(...BUDGET_FY26.byService.map(s => s.amount));
+  document.getElementById('budget-by-service').innerHTML =
+    BUDGET_FY26.byService.map(s => {
+      const pct = (s.amount / BUDGET_FY26.totalDoD * 100).toFixed(1);
+      const width = (s.amount / maxService * 100).toFixed(1);
+      return `
+        <div class="bar-row" style="--b-color:${cssVar(s.color)}"
+             data-service="${s.name}"
+             title="${s.amount} billion · ${pct}% of DoD total">
+          <div class="bar-label">
+            ${s.name}
+            ${s.detail ? `<span class="bar-code">${s.detail}</span>` : ''}
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-target="${width}"></div></div>
+          <div class="bar-value">
+            $${s.amount}B
+            <span class="bar-pct">${pct}%</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+  // By appropriation
+  document.getElementById('budget-by-approp').innerHTML =
+    BUDGET_FY26.byAppropriation.map(a => {
+      return `
+        <div class="bar-row" style="--b-color:${cssVar(a.color)}"
+             data-approp="${a.code}"
+             title="${a.desc}">
+          <div class="bar-label">
+            ${a.name}
+            <span class="bar-code">${a.code}</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-target="${a.pct * 2.4}"></div></div>
+          <div class="bar-value">
+            ~${a.pct}%
+            <span class="bar-pct">≈ $${Math.round(BUDGET_FY26.totalDoD * a.pct / 100)}B</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(el => {
+      el.style.width = el.dataset.target + '%';
+    });
+  }, 100);
+
+  // Wire up clicks
+  document.querySelectorAll('#budget-by-approp .bar-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const code = row.dataset.approp;
+      const a = BUDGET_FY26.byAppropriation.find(x => x.code === code);
+      openAppropriation(a);
+    });
+  });
+  document.querySelectorAll('#budget-by-service .bar-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const name = row.dataset.service;
+      const s = BUDGET_FY26.byService.find(x => x.name === name);
+      openService(s);
+    });
+  });
+}
+
+// ============================================================================
+// DETAIL PANEL
+// ============================================================================
+
+const panel = document.getElementById('panel');
+
+function openPanel({ tag, tagColor, title, subtitle, body }) {
+  document.getElementById('panel-tag').innerHTML = tagColor
+    ? `<span class="dot" style="background:${tagColor}"></span> ${tag}`
+    : tag;
+  document.getElementById('panel-title').innerHTML = title;
+  document.getElementById('panel-subtitle').innerHTML = subtitle || '';
+  document.getElementById('panel-body').innerHTML = body;
+  panel.classList.add('open');
+}
+function closePanel() { panel.classList.remove('open'); }
+
+function openPhase(pw, phase) {
+  openPanel({
+    tag: `${pw.name} · Phase ${phase.n}`,
+    tagColor: cssVar(pw.color),
+    title: phase.name,
+    subtitle: `${pw.statute}`,
+    body: `<p>${withAcronyms(phase.purpose)}</p>`
+  });
+}
+
+function openGate(pw, gate) {
+  openPanel({
+    tag: `${pw.name} · Decision Gate`,
+    tagColor: cssVar(pw.color),
+    title: gate.full,
+    subtitle: `${gate.name}`,
+    body: `<p>${withAcronyms(gate.desc)}</p>
+      ${gate.id === 'msb' ? `
+        <h3>Statutory documents required at MS B</h3>
+        <ul class="doc-list">
+          <li><span class="doc-code">ICD/CDD</span> Validated Capability Development Document</li>
+          <li><span class="doc-code">APB</span> Acquisition Program Baseline</li>
+          <li><span class="doc-code">TEMP</span> Test & Evaluation Master Plan</li>
+          <li><span class="doc-code">SEP</span> Systems Engineering Plan</li>
+          <li><span class="doc-code">ICE</span> Independent Cost Estimate (MDAPs)</li>
+          <li><span class="doc-code">LCSP</span> Life Cycle Sustainment Plan</li>
+          <li><span class="doc-code">Affordability</span> Affordability analysis &amp; cap</li>
+          <li><span class="doc-code">Cyber</span> Cybersecurity Strategy</li>
+        </ul>
+        <p style="font-size:11px;color:var(--ink-3);margin-top:10px;">Per DoDI 5000.85 Table 1. MDA may tailor; statutory requirements survive tailoring.</p>
+      ` : ''}`
+  });
+}
+
+function openFA(pw, fa) {
+  openPanel({
+    tag: `${pw.name} · Functional Area`,
+    tagColor: cssVar(pw.color),
+    title: fa.name,
+    subtitle: '',
+    body: `<p>${withAcronyms(fa.detail)}</p>`
+  });
+}
+
+function openService(s) {
+  const pct = (s.amount / BUDGET_FY26.totalDoD * 100).toFixed(1);
+  openPanel({
+    tag: 'FY 2026 Budget · Service',
+    tagColor: cssVar(s.color),
+    title: s.name,
+    subtitle: s.detail || '',
+    body: `
+      <p>
+        Requested: <strong>$${s.amount} billion</strong> (${pct}% of the $${BUDGET_FY26.totalDoD}B DoD total).
+      </p>
+      <p style="font-size:12px;color:var(--ink-3);margin-top:14px;">
+        Figures from the President's FY 2026 budget request. Combines discretionary base
+        ($848.3B DoD total) and mandatory reconciliation funding ($113.3B from P.L. 119-21).
+      </p>
+    `
+  });
+}
+
+function openAppropriation(a) {
+  const dollars = Math.round(BUDGET_FY26.totalDoD * a.pct / 100);
+  openPanel({
+    tag: 'Appropriation Type',
+    tagColor: cssVar(a.color),
+    title: a.name,
+    subtitle: a.code,
+    body: `
+      <p>${withAcronyms(a.desc)}</p>
+      <p>
+        <strong>~${a.pct}%</strong> of DoD discretionary funding, roughly <strong>$${dollars}B</strong> in FY 2026.
+      </p>
+      ${a.code === 'RDT&E' ? `
+        <h3>RDT&E budget activities</h3>
+        <ul class="doc-list">
+          <li><span class="doc-code">BA-1</span> Basic Research</li>
+          <li><span class="doc-code">BA-2</span> Applied Research</li>
+          <li><span class="doc-code">BA-3</span> Advanced Technology Development</li>
+          <li><span class="doc-code">BA-4</span> Advanced Component Development &amp; Prototypes</li>
+          <li><span class="doc-code">BA-5</span> System Development &amp; Demonstration</li>
+          <li><span class="doc-code">BA-6</span> RDT&amp;E Management Support</li>
+          <li><span class="doc-code">BA-7</span> Operational Systems Development</li>
+        </ul>
+      ` : ''}
+    `
+  });
+}
+
+// ============================================================================
+// ACRONYM TOOLTIP
+// ============================================================================
+
+function setupAcronymTooltips() {
+  const tooltip = document.getElementById('acronym-tooltip');
+  const atName = document.getElementById('at-name');
+  const atFull = document.getElementById('at-full');
+  const atDef = document.getElementById('at-def');
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('.acronym');
+    if (target) {
+      const key = target.dataset.acronym;
+      const data = ACRONYMS[key];
+      if (data) {
+        atName.textContent = key;
+        atFull.textContent = data.full;
+        atDef.textContent = data.def;
+        tooltip.classList.add('visible');
+      }
+    }
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (tooltip.classList.contains('visible')) {
+      const x = Math.min(e.clientX + 14, window.innerWidth - 300);
+      const y = Math.min(e.clientY + 14, window.innerHeight - 140);
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('.acronym')) {
+      tooltip.classList.remove('visible');
+    }
+  });
+}
+
+// ============================================================================
+// SEARCH
+// ============================================================================
+
+document.getElementById('search').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) {
+    document.querySelectorAll('.pathway-card').forEach(c => c.style.opacity = '1');
+    return;
+  }
+  document.querySelectorAll('.pathway-card').forEach(c => {
+    const pwId = c.dataset.pathway;
+    const pw = PATHWAYS.find(p => p.id === pwId);
+    const haystack = (pw.name + ' ' + pw.desc + ' ' + pw.statute + ' ' + pw.tagline).toLowerCase();
+    c.style.opacity = haystack.includes(q) ? '1' : '0.3';
+  });
+});
+
+document.getElementById('close-panel').addEventListener('click', closePanel);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePanel();
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('search').focus();
+  }
+});
+
+// ============================================================================
+// INIT
+// ============================================================================
+
+renderPathwayGrid();
+renderPathwayDetail();
+renderBudget();
+setupAcronymTooltips();
+</script>
+</body>
+</html>
