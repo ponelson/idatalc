@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adaptive Acquisition Framework — Comprehensive Reference</title>
+<title>The Integrated Defense Acquisition Reference</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1146,6 +1146,32 @@
     font-weight: 600;
   }
   footer.colophon strong { color: var(--ink-2); }
+  footer.colophon a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: border-color .15s;
+  }
+  footer.colophon a:hover { border-bottom-color: var(--accent); }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    align-items: center;
+    margin-top: 2px;
+  }
+  .contact-row a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .contact-row svg {
+    width: 12px; height: 12px;
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
+  }
   footer.colophon .col-grid {
     display: grid; grid-template-columns: 2fr 1fr; gap: 32px;
   }
@@ -1181,7 +1207,7 @@
 <!-- ========== STICKY NAV ========== -->
 <nav class="sticky-nav">
   <div class="nav-inner">
-    <div class="nav-brand">DoD <em>Acquisition</em> Reference</div>
+    <div class="nav-brand">Integrated <em>Defense</em> Acquisition Reference</div>
     <div class="nav-links">
       <a href="#pathways">Pathways</a>
       <a href="#functional">Functional areas</a>
@@ -1206,8 +1232,8 @@
 <!-- ========== HEADER ========== -->
 <header class="masthead">
   <div class="masthead-inner">
-    <p class="eyebrow">Comprehensive reference · current to May 2026</p>
-    <h1>The <em>Adaptive</em> Acquisition Framework &amp; the systems that surround it</h1>
+    <p class="eyebrow">After the DAU Integrated Defense Acquisition, Technology &amp; Logistics Life Cycle Management System chart · current to May 2026</p>
+    <h1>The <em>Integrated</em> Defense Acquisition Reference</h1>
     <p class="subtitle">A working reference for the post-2020 DoD acquisition lifecycle — six pathways, the post-JCIDS requirements process, the technical reviews and milestone documents that gate programs, and the budget machinery behind them.</p>
 
     <div class="masthead-meta">
@@ -1445,6 +1471,18 @@
 
       <h3>Prototype</h3>
       v4 · comprehensive build · single-file demo, no dependencies beyond Google Fonts.
+
+      <h3>Contact</h3>
+      <div class="contact-row">
+        <a href="mailto:ponelson@gmail.com">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          ponelson@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/ponelson/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          linkedin.com/in/ponelson
+        </a>
+      </div>
     </div>
   </div>
 </footer>
