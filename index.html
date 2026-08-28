@@ -1,204 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Integrated Defense Acquisition Reference</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700;8..60,900&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#f5f5f7" id="themeColorMeta">
+<title>Integrated Defense Acquisition Reference v1.0 — post-2020 DoD acquisition lifecycle</title>
+<meta property="og:title" content="Integrated Defense Acquisition Reference v1.0">
+<meta property="og:description" content="Six acquisition pathways, the post-JCIDS requirements process, technical reviews, milestone documents, contracts, cost estimating, budget, PPBE, and an acronym dictionary — the post-2020 DoD acquisition lifecycle in one reference.">
+<meta name="description" content="A working reference for the post-2020 DoD acquisition lifecycle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700;8..60,900&display=swap" rel="stylesheet">
 <style>
-  :root{--sans:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;--serif:'Source Serif 4',ui-serif,Georgia,serif;--mono:'JetBrains Mono','SF Mono',Menlo,monospace;--wm-glass:rgba(255,255,255,.72);--wm-shadow2:0 8px 28px rgba(0,0,0,.08);
-    --paper: #f7f3ec;
-    --paper-2: #efeae1;
-    --paper-3: #e8e2d6;
-    --ink: #1c1917;
-    --ink-2: #44403c;
-    --ink-3: #78716c;
-    --rule: #d6d3d1;
-    --rule-2: #c4c1bd;
-    --accent: #7c2d12;
-    --highlight: #fde68a;
+/* ============================================================
+   TOKENS — the ONLY place literal colors may appear.
+   Everything below this block uses var(--…). No exceptions.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --bg:#f5f5f7;
+  --bg-grad-1:rgba(234,243,255,.85);
+  --bg-grad-2:rgba(255,240,223,.75);
+  --bg-grad-3:#fbfbfd;
+  --bg-grad-4:#eff2f6;
+  --surface:#ffffff;  --surface-2:#f0f0f3;  --surface-3:#f1f3f5;
+  --glass:rgba(255,255,255,.72);
+  --glass-2:rgba(255,255,255,.60);
+  --glass-border:rgba(255,255,255,.72);
+  --nav-bg:rgba(245,245,247,.90);
+  --ink:#111114;  --ink-2:#3a3f4c;  --ink-3:#4a505c;  --ink-dim:#6b6f7b;  --ink-strong:#000000;
+  --line:rgba(0,0,0,.09);  --line-2:rgba(0,0,0,.16);  --line-solid:#e3e3e8;  --line-strong:#d2d2d7;
+  --blue:#0071e3;      --blue-ink:#0057b8;    --blue-soft:#e9f3ff;
+  --green:#1f8f4e;     --green-ink:#0f6a36;   --green-soft:#e9f7ee;
+  --orange:#b65f00;    --orange-ink:#8a4800;  --orange-soft:#fff1df;
+  --purple:#6b47d6;    --purple-ink:#4d32a3;  --purple-soft:#f0edff;
+  --red:#bd2b28;       --red-ink:#a52320;     --red-soft:#fdeceb;
+  --on-accent:#ffffff;
+  --invert-bg:#141417;  --invert-ink:#f5f5f7;  --invert-ink-2:#c9ccd3;  --invert-line:#2a2a30;
+  --code-bg:#141417;   --code-ink:#e6e8ee;    --code-line:#2a2a30;
+  --code-c:#7f8798; --code-k:#6fb2ff; --code-g:#63d193; --code-r:#ff7b72; --code-y:#ffc46b;
+  --code-light-bg:#f1f2f4; --code-light-ink:#1c1f26;
+  --note-bg:rgba(0,113,227,.05);   --note-line:rgba(0,113,227,.20);
+  --warn-bg:#fff7e8;               --warn-line:#f2d6a7;  --warn-ink:#5c3b00;
+  --strip-bg:#111114;  --strip-ink:#ffffff;
+  --strip-btn:rgba(255,255,255,.10); --strip-btn-hover:rgba(255,255,255,.20);
+  --strip-line:rgba(255,255,255,.20);
+  --pill-bg:rgba(255,255,255,.68);  --pill-ink:#252934;
+  --pill-on-bg:#111114;             --pill-on-ink:#ffffff;
+  --shadow:0 18px 60px rgba(0,0,0,.10);
+  --shadow-2:0 8px 28px rgba(0,0,0,.08);
+  --shadow-hover:0 16px 50px rgba(0,0,0,.11);
+  --orb-opacity:.72;
+  --gradtext:linear-gradient(102deg,#17191d 0%,#465365 48%,#0874dc 86%,#0068c9 100%);
+  --gradtext-fallback:#34475f;
+  --serif:'Source Serif 4', ui-serif, Georgia, serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', Segoe UI, sans-serif;
+  --mono:'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --radius:28px; --radius-2:18px;
 
-    /* pathway colors */
-    --pw-uca: #b91c1c;
-    --pw-mta: #c2410c;
-    --pw-mca: #1e40af;
-    --pw-swp: #6d28d9;
-    --pw-dbs: #0f766e;
-    --pw-svc: #4d7c0f;
+  /* --- Integrated Defense doc: bridge + extension tokens --- */
+  --paper: var(--surface);
+  --paper-2: var(--surface-2);
+  --paper-3: var(--surface-3);
+  --rule: var(--line);
+  --rule-2: var(--line-2);
+  --shadow-card: var(--shadow-2);
+  --shadow-panel: var(--shadow);
+  --dot: rgba(0,0,0,.05);
+  --stripe: rgba(0,0,0,.03);
+  --tooltip-label: rgba(255,255,255,.6);
+  --pw-text-muted: rgba(255,255,255,.75);
+  --pw-text-strong: rgba(255,255,255,.85);
+  --accent: #7c2d12;
+  --highlight: #fde68a;
+  --pw-uca: #b91c1c; --pw-mta: #c2410c; --pw-mca: #1e40af; --pw-swp: #6d28d9; --pw-dbs: #0f766e; --pw-svc: #4d7c0f;
+  --svc-army: #4a5d23; --svc-navy: #1e3a5f; --svc-af: #5b7c99; --svc-sf: #2d2d4f; --svc-dw: #78716c;
+  --app-om: #b45309; --app-mp: #be185d; --app-proc: #1e40af; --app-rdte: #6d28d9; --app-mc: #4d7c0f;
+  --fa-se: #6d28d9; --fa-te: #1e40af; --fa-cyber: #b91c1c; --fa-lcl: #0f766e; --fa-cost: #a16207; --fa-me: #c2410c; --fa-ip: #4d7c0f; --fa-hsi: #be185d;
+  --ppbe-plan: #1e40af; --ppbe-prog: #7c2d12; --ppbe-budget: #a16207; --ppbe-exec: #4d7c0f;
+}
 
-    /* service colors */
-    --svc-army:  #4a5d23;
-    --svc-navy:  #1e3a5f;
-    --svc-af:    #5b7c99;
-    --svc-sf:    #2d2d4f;
-    --svc-dw:    #78716c;
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0d0d10;
+  --bg-grad-1:rgba(23,42,71,.55);
+  --bg-grad-2:rgba(58,40,20,.45);
+  --bg-grad-3:#101015;
+  --bg-grad-4:#0a0a0d;
+  --surface:#17171c;  --surface-2:#1d1d23;  --surface-3:#22222a;
+  --glass:rgba(30,30,37,.72);
+  --glass-2:rgba(30,30,37,.60);
+  --glass-border:rgba(255,255,255,.10);
+  --nav-bg:rgba(16,16,20,.90);
+  --ink:#f2f2f5;  --ink-2:#c3c7d1;  --ink-3:#adb2bd;  --ink-dim:#9096a3;  --ink-strong:#ffffff;
+  --line:rgba(255,255,255,.12);  --line-2:rgba(255,255,255,.20);  --line-solid:#2b2b33;  --line-strong:#3a3a44;
+  --blue:#4da3ff;      --blue-ink:#8cc3ff;    --blue-soft:rgba(77,163,255,.16);
+  --green:#4bc47d;     --green-ink:#7fd9a2;   --green-soft:rgba(75,196,125,.16);
+  --orange:#f0a23c;    --orange-ink:#f5bd72;  --orange-soft:rgba(240,162,60,.16);
+  --purple:#a78bfa;    --purple-ink:#c4b1ff;  --purple-soft:rgba(167,139,250,.18);
+  --red:#f0736e;       --red-ink:#f79b97;     --red-soft:rgba(240,115,110,.16);
+  --on-accent:#0d0d10;
+  --invert-bg:#22222b;  --invert-ink:#f5f5f7;  --invert-ink-2:#c9ccd3;  --invert-line:#3d3d49;
+  --code-bg:#101014;   --code-ink:#e6e8ee;    --code-line:#2f2f3a;
+  --code-light-bg:#1b1b21; --code-light-ink:#dfe2e9;
+  --note-bg:rgba(77,163,255,.10);  --note-line:rgba(77,163,255,.30);
+  --warn-bg:rgba(240,162,60,.12);  --warn-line:rgba(240,162,60,.34); --warn-ink:#f3cd95;
+  --strip-bg:#000000;  --strip-ink:#f2f2f5;
+  --strip-btn:rgba(255,255,255,.10); --strip-btn-hover:rgba(255,255,255,.22);
+  --strip-line:rgba(255,255,255,.22);
+  --pill-bg:rgba(255,255,255,.07);  --pill-ink:#dcdfe7;
+  --pill-on-bg:#f2f2f5;             --pill-on-ink:#0d0d10;
+  --shadow:0 18px 60px rgba(0,0,0,.55);
+  --shadow-2:0 8px 28px rgba(0,0,0,.45);
+  --shadow-hover:0 16px 50px rgba(0,0,0,.60);
+  --orb-opacity:.30;
+  --gradtext:linear-gradient(102deg,#ffffff 0%,#cdd8e8 48%,#6fb2ff 86%,#4da3ff 100%);
+  --gradtext-fallback:#cfe0f5;
 
-    /* appropriation colors */
-    --app-om:    #b45309;
-    --app-mp:    #be185d;
-    --app-proc:  #1e40af;
-    --app-rdte:  #6d28d9;
-    --app-mc:    #4d7c0f;
+  /* --- Integrated Defense doc: bridge + extension tokens (dark) --- */
+  --paper: var(--surface);
+  --paper-2: var(--surface-2);
+  --paper-3: var(--surface-3);
+  --rule: var(--line);
+  --rule-2: var(--line-2);
+  --shadow-card: var(--shadow-2);
+  --shadow-panel: var(--shadow);
+  --dot: rgba(255,255,255,.05);
+  --stripe: rgba(255,255,255,.035);
+  --tooltip-label: rgba(0,0,0,.55);
+  --pw-text-muted: rgba(13,13,16,.72);
+  --pw-text-strong: rgba(13,13,16,.85);
+  --accent: #e98968;
+  --highlight: rgba(253,230,138,.28);
+  --pw-uca: #e86868; --pw-mta: #f5885c; --pw-mca: #6b88e6; --pw-swp: #9b6ce5; --pw-dbs: #65ebe1; --pw-svc: #b2ec64;
+  --svc-army: #b6d081; --svc-navy: #7ba2d5; --svc-af: #8aaac7; --svc-sf: #8a8ac7; --svc-dw: #c7a38a;
+  --app-om: #f79e5a; --app-mp: #ec659d; --app-proc: #6b88e6; --app-rdte: #9b6ce5; --app-mc: #b2ec64;
+  --fa-se: #9b6ce5; --fa-te: #6b88e6; --fa-cyber: #e86868; --fa-lcl: #65ebe1; --fa-cost: #f8b759; --fa-me: #f5885c; --fa-ip: #b2ec64; --fa-hsi: #ec659d;
+  --ppbe-plan: #6b88e6; --ppbe-prog: #e98968; --ppbe-budget: #f8b759; --ppbe-exec: #b2ec64;
+}
 
-    /* functional area colors */
-    --fa-se:    #6d28d9;
-    --fa-te:    #1e40af;
-    --fa-cyber: #b91c1c;
-    --fa-lcl:   #0f766e;
-    --fa-cost:  #a16207;
-    --fa-me:    #c2410c;
-    --fa-ip:    #4d7c0f;
-    --fa-hsi:   #be185d;
-
-    --shadow-card: 0 1px 0 rgba(28,25,23,.04), 0 1px 2px rgba(28,25,23,.06);
-    --shadow-panel: -8px 0 32px rgba(28,25,23,.12);
-  }
-
-  * { box-sizing: border-box; }
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
 
   html { scroll-behavior: smooth; scroll-padding-top: 64px; }
-  html, body {
+  html { scroll-padding-top: 64px; }
+  body {
     margin: 0; padding: 0;
-    background: var(--paper);
     color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--sans);
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
+  .app { background: var(--paper); }
 
   body::before {
     content: ''; position: fixed; inset: 0;
     pointer-events: none; z-index: 1;
-    background-image: radial-gradient(circle at 1px 1px, rgba(28,25,23,.025) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
     background-size: 24px 24px; opacity: .6;
   }
 
   .app { position: relative; z-index: 2; min-height: 100vh; }
 
-  /* ============ STICKY NAV ============ */
-  nav.sticky-nav {
-    position: sticky;
-    top: 0;
-    background: rgba(247, 243, 236, 0.92);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--rule);
-    z-index: 50;
-    padding: 0 40px;
-  }
-  .nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 10px 0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-  .nav-brand {
-    font-family: 'Source Serif 4', serif;
-    font-weight: 600;
-    font-size: 14px;
-    white-space: nowrap;
-    color: var(--ink);
-  }
-  .nav-brand em { font-style: italic; color: var(--accent); }
-  .nav-links {
-    display: flex;
-    gap: 4px;
-    flex-wrap: nowrap;
-    align-items: center;
-  }
-  .nav-links a {
-    font-family: 'Inter', sans-serif;
-    font-size: 11.5px;
-    color: var(--ink-2);
-    text-decoration: none;
-    padding: 6px 10px;
-    border-radius: 3px;
-    white-space: nowrap;
-    transition: all .15s;
-  }
-  .nav-links a:hover { background: var(--paper-2); color: var(--ink); }
-  .nav-search {
-    display: flex; align-items: center; gap: 6px;
-    background: white; border: 1px solid var(--rule);
-    border-radius: 4px; padding: 5px 10px;
-    width: 200px;
-  }
-  .nav-search:focus-within { border-color: var(--ink); }
-  .nav-search svg { width: 12px; height: 12px; stroke: var(--ink-3); }
-  .nav-search input {
-    border: 0; outline: 0; background: transparent;
-    font: inherit; flex: 1; color: var(--ink); font-size: 12px;
-  }
-  .nav-search input::placeholder { color: var(--ink-3); }
+  
 
-  /* ============ HEADER ============ */
-  header.masthead {
-    border-bottom: 1px solid var(--rule);
-    background: var(--paper);
-    padding: 36px 40px 28px;
-  }
-  .masthead-inner { max-width: 1600px; margin: 0 auto; }
-  .eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--ink-3);
-    margin: 0 0 8px;
-  }
-  h1 {
-    font-family: 'Source Serif 4', serif;
-    font-weight: 600; font-size: 42px;
-    line-height: 1.05; letter-spacing: -0.02em;
-    margin: 0 0 10px;
-    max-width: 880px;
-  }
-  h1 em {
-    font-style: italic;
-    font-variation-settings: "opsz" 144;
-    color: var(--accent);
-  }
-  .subtitle {
-    font-family: 'Source Serif 4', serif;
-    font-size: 17px; color: var(--ink-2);
-    font-style: italic; max-width: 760px; margin: 0 0 14px;
-    line-height: 1.5;
-  }
-  .masthead-meta {
-    display: flex; gap: 28px; flex-wrap: wrap;
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid var(--rule);
-  }
-  .meta-stat .meta-num {
-    font-family: 'Source Serif 4', serif;
-    font-size: 24px; font-weight: 600;
-    color: var(--ink);
-    line-height: 1;
-  }
-  .meta-stat .meta-num em {
-    font-style: italic; color: var(--accent);
-    font-variation-settings: "opsz" 144;
-  }
-  .meta-stat .meta-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin-top: 4px;
-  }
+/* ============================================================
+   TOPBAR — dark contact strip + glass nav (house chrome)
+   ============================================================ */
+.topbar{position:sticky; top:0; z-index:60;}
+.contact-strip{
+  background:var(--strip-bg); color:var(--strip-ink);
+  border-bottom:1px solid var(--strip-line);
+}
+.contact-strip .wrap{display:flex; justify-content:flex-end; align-items:center; gap:8px; padding:7px 26px;}
+.contact-link{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.05em;
+  color:var(--strip-ink); background:var(--strip-btn);
+  border:0; border-radius:999px; padding:5px 11px; cursor:pointer;
+  text-decoration:none; transition:background .18s ease;
+}
+.contact-link:hover{background:var(--strip-btn-hover); text-decoration:none;}
+.contact-link svg{width:13px; height:13px; fill:currentColor;}
 
-  /* ============ SECTIONS ============ */
-  section.content {
+.nav{
+  background:var(--nav-bg); backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{display:flex; align-items:center; gap:14px; padding:10px 26px;}
+.brand{font-family:var(--serif); font-weight:700; font-size:17px; color:var(--ink); white-space:nowrap;}
+.vtag{
+  font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.08em;
+  color:var(--ink-dim); border:1px solid var(--line-2); border-radius:999px; padding:2px 8px;
+}
+.docsearch{
+  display:flex; align-items:center; gap:6px; background:var(--pill-bg);
+  border:1px solid var(--line); border-radius:999px; padding:5px 12px;
+  width:190px; margin-left:8px;
+}
+.docsearch svg{width:12px; height:12px; stroke:var(--ink-dim); flex:0 0 auto;}
+.docsearch input{
+  border:0; outline:0; background:transparent; font-family:var(--sans);
+  font-size:12.5px; color:var(--ink); width:100%;
+}
+.docsearch input::placeholder{color:var(--ink-dim);}
+#navlinks{display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; margin-left:auto;}
+#navlinks::-webkit-scrollbar{display:none;}
+#navlinks a{
+  font-size:13px; font-weight:500; white-space:nowrap;
+  color:var(--pill-ink); background:var(--pill-bg);
+  border:1px solid var(--line); border-radius:999px; padding:5px 13px;
+  transition:background .18s ease, color .18s ease;
+}
+#navlinks a:hover{text-decoration:none; border-color:var(--line-2);}
+#navlinks a.active{background:var(--pill-on-bg); color:var(--pill-on-ink); border-color:transparent;}
+#menubtn{
+  display:none; margin-left:auto; background:var(--pill-bg); color:var(--ink);
+  border:1px solid var(--line); border-radius:10px; padding:6px 11px;
+  font-size:16px; line-height:1; cursor:pointer;
+}
+#drawer{display:none; flex-direction:column; gap:2px; padding:0 26px 14px;}
+#drawer.open{display:flex;}
+#drawer a{
+  color:var(--ink-2); font-size:15px; padding:9px 2px;
+  border-bottom:1px solid var(--line);
+}
+@media(max-width:1080px){
+  #navlinks{display:none;}
+  .docsearch{display:none;}
+  #menubtn{display:block;}
+}
+
+/* ============================================================
+   HERO — house chrome
+   ============================================================ */
+.wrap{max-width:1460px; margin:0 auto; padding:0 26px;}
+.hero{position:relative; overflow:hidden; padding:64px 0 40px;}
+.orb{position:absolute; border-radius:50%; filter:blur(66px); opacity:var(--orb-opacity); pointer-events:none; z-index:0;}
+.orb.a{width:460px; height:460px; top:-140px; left:-90px; background:var(--blue-soft);}
+.orb.b{width:380px; height:380px; top:-60px; right:-70px; background:var(--orange-soft);}
+.hero .wrap{position:relative; z-index:1;}
+.hero .eyebrow{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--ink-dim); margin-bottom:18px;
+}
+.hero .eyebrow b{color:var(--ink-2); font-weight:700;}
+.hero h1{
+  font-family:var(--serif); font-weight:900; font-size:clamp(32px,4.6vw,54px);
+  line-height:1.06; letter-spacing:-.02em; margin:0 0 16px; max-width:26ch; color:var(--ink);
+}
+.hero h1 em{
+  font-style:normal; color:var(--gradtext-fallback);
+  background:var(--gradtext); -webkit-background-clip:text; background-clip:text;
+}
+@supports((-webkit-background-clip:text) or (background-clip:text)){.hero h1 em{-webkit-text-fill-color:transparent;}}
+.hero .lede{font-size:clamp(15px,1.2vw,17px); line-height:1.55; color:var(--ink-2); max-width:74ch; margin:0 0 8px;}
+.hero .lede-attr{font-size:12px; color:var(--ink-dim); margin:0 0 26px;}
+.hero-stats{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-top:8px;}
+.hero-stats .stat{
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:var(--radius-2); padding:14px 14px; box-shadow:var(--shadow-2);
+}
+.hero-stats .stat .n{font-family:var(--serif); font-weight:900; font-size:clamp(18px,1.8vw,26px); color:var(--ink); line-height:1.05;}
+.hero-stats .stat .n em{font-style:normal; color:var(--blue-ink);}
+.hero-stats .stat .t{font-family:var(--mono); font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-dim); margin-top:6px; line-height:1.3; display:block;}
+@media(max-width:960px){.hero-stats{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:520px){.hero-stats{grid-template-columns:repeat(2,1fr);}}
+
+/* ============================================================
+   FOOTER — house verstamp
+   ============================================================ */
+.verstamp{
+  font-family:var(--mono); font-size:11px; line-height:1.75;
+  color:var(--ink-dim); max-width:1100px; padding:22px 40px 0;
+}
+/* ============ SECTIONS ============ */
+  section.section {
     padding: 36px 40px;
     border-bottom: 1px solid var(--rule);
   }
-  section.content:nth-child(even) { background: rgba(239, 234, 225, 0.35); }
+  section.section:nth-child(even) { background: var(--stripe); }
   .section-inner { max-width: 1600px; margin: 0 auto; }
   .section-header {
     display: flex; align-items: baseline; gap: 14px;
@@ -241,7 +326,7 @@
     margin-bottom: 16px;
   }
   .pathway-card {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-top: 3px solid var(--p-color, var(--ink-3));
     border-radius: 4px;
@@ -252,22 +337,22 @@
   }
   .pathway-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(28,25,23,.08);
+    box-shadow: var(--shadow-2);
   }
   .pathway-card.active {
     background: var(--p-color);
-    color: white;
+    color: var(--on-accent);
     border-color: var(--p-color);
   }
   .pathway-card.active .pw-statute,
-  .pathway-card.active .pw-timeline { color: rgba(255,255,255,.75); }
+  .pathway-card.active .pw-timeline { color: var(--pw-text-muted); }
   .pw-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px; letter-spacing: 0.1em;
     color: var(--p-color);
     font-weight: 600; margin-bottom: 4px;
   }
-  .pathway-card.active .pw-num { color: rgba(255,255,255,.85); }
+  .pathway-card.active .pw-num { color: var(--pw-text-strong); }
   .pw-name {
     font-family: 'Source Serif 4', serif;
     font-size: 14px; font-weight: 600;
@@ -286,7 +371,7 @@
   }
 
   .pathway-detail {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 24px 28px;
@@ -415,7 +500,7 @@
     gap: 12px;
   }
   .xfa-card {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-top: 2px solid var(--xfa-color);
     border-radius: 4px;
@@ -424,7 +509,7 @@
     transition: all .15s;
   }
   .xfa-card:hover {
-    box-shadow: 0 4px 12px rgba(28,25,23,.06);
+    box-shadow: var(--shadow-2);
     transform: translateY(-1px);
   }
   .xfa-header {
@@ -448,7 +533,7 @@
 
   /* ============ JFRP DIAGRAM ============ */
   .jfrp-wrap {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 24px 28px;
@@ -496,7 +581,7 @@
 
   /* ============ TECHNICAL REVIEWS TIMELINE ============ */
   .reviews-timeline {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 24px 28px;
@@ -532,7 +617,7 @@
   }
   .review-marker .rm-dot {
     width: 14px; height: 14px;
-    background: white;
+    background: var(--surface);
     border: 2px solid var(--ink);
     border-radius: 50%;
     margin: 6px auto;
@@ -558,7 +643,7 @@
 
   /* ============ DOCUMENTS MATRIX ============ */
   .docs-matrix-wrap {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     overflow: hidden;
@@ -614,7 +699,7 @@
     gap: 16px;
   }
   .contract-block {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 20px 22px;
@@ -690,7 +775,7 @@
 
   /* ============ COST METHODS ============ */
   .cost-strip {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 20px 22px;
@@ -731,7 +816,7 @@
     gap: 16px;
   }
   .budget-col {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 22px 24px;
@@ -815,7 +900,7 @@
     letter-spacing: 0.06em;
   }
   .fy-switcher button.active {
-    background: white;
+    background: var(--surface);
     color: var(--ink);
     box-shadow: var(--shadow-card);
   }
@@ -866,7 +951,7 @@
 
   /* ============ PPBE CALENDAR ============ */
   .ppbe-wrap {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 24px 28px;
@@ -904,7 +989,7 @@
   }
   .ppbe-event {
     background: var(--ev-color, var(--ink-3));
-    color: white;
+    color: var(--on-accent);
     font-size: 9.5px;
     padding: 4px 6px;
     border-radius: 2px;
@@ -961,7 +1046,7 @@
     color: var(--ink-3);
   }
   .acronym-grid {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 20px 22px;
@@ -1021,13 +1106,13 @@
     pointer-events: none;
     opacity: 0;
     transition: opacity .15s;
-    box-shadow: 0 8px 24px rgba(28,25,23,.2);
+    box-shadow: var(--shadow);
   }
   #acronym-tooltip.visible { opacity: 1; }
   #acronym-tooltip .at-name {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px; letter-spacing: 0.1em;
-    color: rgba(247,243,236,.6);
+    color: var(--tooltip-label);
     margin-bottom: 2px; display: block;
   }
   #acronym-tooltip .at-full {
@@ -1095,7 +1180,7 @@
   }
   .doc-list li {
     padding: 8px 12px;
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 3px;
     font-size: 12px;
@@ -1114,7 +1199,7 @@
   .link-pill {
     font-size: 11px;
     padding: 4px 10px;
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 999px;
     cursor: pointer;
@@ -1186,7 +1271,7 @@
   @media (max-width: 800px) {
     .nav-inner { gap: 8px; }
     .nav-search { display: none; }
-    header.masthead, section.content { padding-left: 20px; padding-right: 20px; }
+    .hero, section.section { padding-left: 20px; padding-right: 20px; }
     h1 { font-size: 30px; }
     .pathway-grid { grid-template-columns: repeat(2, 1fr); }
     .phase-flow { flex-direction: column; }
@@ -1198,83 +1283,59 @@
     .acronym-grid { columns: 1; }
   }
 
-  :root{--wm-ink:#111114;--paper:#f5f5f7;--paper-2:#eef0f3;--paper-3:#e7ebf0;--ink:#111114;--ink-2:#303540;--ink-3:#6b6f7b;--rule:rgba(0,0,0,.12);--rule-2:rgba(0,0,0,.18);--accent:#0071e3;--highlight:#ffe9a8;}
-
-  /* ===== world_models re-skin (chrome only; content untouched) ===== */
-  html{background:#eff2f6;}
-  body{background:radial-gradient(circle at 15% 0%, #eaf3ff 0, rgba(234,243,255,0) 38%),radial-gradient(circle at 80% 8%, #fff0df 0, rgba(255,240,223,0) 32%),linear-gradient(180deg,#fbfbfd 0,#f5f5f7 45%,#eff2f6 100%) !important;background-attachment:fixed !important;color:var(--wm-ink,#111114);}
-  body{font-family:var(--sans) !important;line-height:1.45;}
-  h1,h2,h3,h4,h5,h6,.serif,.title,h1.title,.fp-title,.lede h2,.display,.big{font-family:var(--serif) !important;}
-  code,kbd,pre,samp,th,.mono,.factor,.kicker,.eyebrow,.fp-k,.fp-stat,[class*="mono"],.doc-code,.doc-code-inline{font-family:var(--mono) !important;}
-  .phase-step,.fa-card,.jfrp-node{background:var(--wm-glass) !important;backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);box-shadow:var(--wm-shadow2);border:1px solid rgba(0,0,0,.09);}
+  
 </style>
 </head>
 <body>
-<div class="app">
 
-<!-- ========== STICKY NAV ========== -->
-<nav class="sticky-nav">
-  <div class="nav-inner">
-    <div class="nav-brand">Integrated <em>Defense</em> Acquisition Reference</div>
-    <div class="nav-links">
-      <a href="#pathways">Pathways</a>
-      <a href="#functional">Functional areas</a>
-      <a href="#requirements">JFRP</a>
-      <a href="#reviews">Tech reviews</a>
-      <a href="#documents">MS docs</a>
-      <a href="#contracts">Contracts</a>
-      <a href="#cost">Cost</a>
-      <a href="#budget">Budget</a>
-      <a href="#ppbe">PPBE</a>
-      <a href="#acronyms">Acronyms</a>
-    </div>
-    <div class="nav-search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/>
-      </svg>
-      <input id="global-search" type="text" placeholder="Search…">
+<div class="topbar">
+  <div class="contact-strip">
+    <div class="wrap">
+      <a class="contact-link" href="mailto:ponelson@gmail.com">Email</a>
+      <a class="contact-link" href="https://www.linkedin.com/in/ponelson/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="contact-link" href="https://ponelson.github.io/pon/" target="_blank" rel="noopener">GitHub</a>
+      <button class="contact-link" id="themeToggle" aria-pressed="false">
+        <span id="themeLabel">Dark</span>
+      </button>
     </div>
   </div>
-</nav>
+  <nav class="nav">
+    <div class="wrap">
+      <span class="brand">IDAR</span>
+      <span class="vtag">v1.0</span>
+      <div class="docsearch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        <input id="global-search" type="text" placeholder="Search or press /">
+      </div>
+      <div id="navlinks"></div>
+      <button id="menubtn" aria-label="Menu">☰</button>
+    </div>
+    <div id="drawer"></div>
+  </nav>
+</div>
 
-<!-- ========== HEADER ========== -->
-<header class="masthead">
-  <div class="masthead-inner">
-    <p class="eyebrow">After the DAU Integrated Defense Acquisition, Technology &amp; Logistics Life Cycle Management System chart · current to May 2026</p>
+<header class="hero">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="wrap">
+    <div class="eyebrow">Defense acquisition / <b>v1.0</b> · 28 August 2026, 1:32 AM ET · build 2026-08-28T05:32-04:00</div>
     <h1>The <em>Integrated</em> Defense Acquisition Reference</h1>
-    <p class="subtitle">A working reference for the post-2020 DoD acquisition lifecycle — six pathways, the post-JCIDS requirements process, the technical reviews and milestone documents that gate programs, and the budget machinery behind them.</p>
-
-    <div class="masthead-meta">
-      <div class="meta-stat">
-        <div class="meta-num"><em>6</em></div>
-        <div class="meta-label">Pathways</div>
-      </div>
-      <div class="meta-stat">
-        <div class="meta-num">8</div>
-        <div class="meta-label">Cross-cutting functional areas</div>
-      </div>
-      <div class="meta-stat">
-        <div class="meta-num">12</div>
-        <div class="meta-label">Technical reviews</div>
-      </div>
-      <div class="meta-stat">
-        <div class="meta-num" id="acronym-stat">—</div>
-        <div class="meta-label">Acronyms indexed</div>
-      </div>
-      <div class="meta-stat">
-        <div class="meta-num">$839.2 B</div>
-        <div class="meta-label">FY26 enacted (DoD)</div>
-      </div>
-      <div class="meta-stat">
-        <div class="meta-num">$1.5 T</div>
-        <div class="meta-label">FY27 request (national defense)</div>
-      </div>
+    <p class="lede">A working reference for the post-2020 DoD acquisition lifecycle — six pathways, the post-JCIDS requirements process, the technical reviews and milestone documents that gate programs, and the budget machinery behind them.</p>
+    <p class="lede-attr">After the DAU Integrated Defense Acquisition, Technology &amp; Logistics Life Cycle Management System chart · current to May 2026.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="n"><em>6</em></span><span class="t">Pathways</span></div>
+      <div class="stat"><span class="n">8</span><span class="t">Functional areas</span></div>
+      <div class="stat"><span class="n">12</span><span class="t">Technical reviews</span></div>
+      <div class="stat"><span class="n" id="acronym-stat">—</span><span class="t">Acronyms indexed</span></div>
+      <div class="stat"><span class="n">$839.2B</span><span class="t">FY26 enacted (DoD)</span></div>
+      <div class="stat"><span class="n">$1.5T</span><span class="t">FY27 request (nat'l defense)</span></div>
     </div>
   </div>
 </header>
 
-<!-- ========== SECTION 1: PATHWAYS ========== -->
-<section class="content" id="pathways">
+<div class="app">
+
+<section class="section" id="pathways" data-nav="Pathways">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§1</span> Six acquisition pathways</h2>
@@ -1287,7 +1348,7 @@
 </section>
 
 <!-- ========== SECTION 2: CROSS-CUTTING FUNCTIONAL AREAS ========== -->
-<section class="content" id="functional">
+<section class="section" id="functional" data-nav="Functional">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§2</span> Cross-cutting functional areas</h2>
@@ -1299,7 +1360,7 @@
 </section>
 
 <!-- ========== SECTION 3: JFRP ========== -->
-<section class="content" id="requirements">
+<section class="section" id="requirements" data-nav="Requirements">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§3</span> Requirements · the Joint Force Requirements Process</h2>
@@ -1311,7 +1372,7 @@
 </section>
 
 <!-- ========== SECTION 4: TECHNICAL REVIEWS ========== -->
-<section class="content" id="reviews">
+<section class="section" id="reviews" data-nav="Tech reviews">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§4</span> Technical reviews — the SE event chain</h2>
@@ -1325,21 +1386,23 @@
 </section>
 
 <!-- ========== SECTION 5: MILESTONE DOCUMENTS ========== -->
-<section class="content" id="documents">
+<section class="section" id="documents" data-nav="MS docs">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§5</span> Milestone document matrix</h2>
       <span class="meta">·  MCA pathway · per DoDI 5000.85 &amp; 5000.02 Change 2</span>
     </div>
     <p class="section-intro">What's statutorily or regulatorily required at each MCA decision point. MDAs can tailor, but statutory requirements (marked) cannot be omitted without waiver.</p>
-    <div class="docs-matrix-wrap">
-      <table class="docs-matrix" id="docs-matrix"></table>
+    <div class="docs-matrix-wrap tablewrap">
+      <div class="table-scroll">
+        <table class="docs-matrix" id="docs-matrix"></table>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ========== SECTION 6: CONTRACTS ========== -->
-<section class="content" id="contracts">
+<section class="section" id="contracts" data-nav="Contracts">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§6</span> Contract types &amp; phase mapping</h2>
@@ -1349,7 +1412,11 @@
     <div class="contract-split">
       <div class="contract-block">
         <h3 class="cb-title">Contract type characteristics</h3>
-        <table class="contract-table" id="contract-types-table"></table>
+        <div class="tablewrap" style="border:0; box-shadow:none; background:transparent;">
+          <div class="table-scroll">
+            <table class="contract-table" id="contract-types-table"></table>
+          </div>
+        </div>
       </div>
       <div class="contract-block">
         <h3 class="cb-title">Likely contract type by MCA phase</h3>
@@ -1363,7 +1430,7 @@
 </section>
 
 <!-- ========== SECTION 7: COST ESTIMATING ========== -->
-<section class="content" id="cost">
+<section class="section" id="cost" data-nav="Cost">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§7</span> Cost estimating methods</h2>
@@ -1380,7 +1447,7 @@
 </section>
 
 <!-- ========== SECTION 8: BUDGET ========== -->
-<section class="content" id="budget">
+<section class="section" id="budget" data-nav="Budget">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§8</span> Budget</h2>
@@ -1417,7 +1484,7 @@
 </section>
 
 <!-- ========== SECTION 9: PPBE ========== -->
-<section class="content" id="ppbe">
+<section class="section" id="ppbe" data-nav="PPBE">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§9</span> PPBE — the annual resource cycle</h2>
@@ -1427,10 +1494,10 @@
     <div class="ppbe-wrap">
       <div class="ppbe-grid" id="ppbe-grid"></div>
       <div class="ppbe-legend">
-        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:#1e40af"></span> Planning</div>
-        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:#7c2d12"></span> Programming</div>
-        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:#a16207"></span> Budgeting</div>
-        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:#4d7c0f"></span> Execution / Congressional</div>
+        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:var(--ppbe-plan)"></span> Planning</div>
+        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:var(--ppbe-prog)"></span> Programming</div>
+        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:var(--ppbe-budget)"></span> Budgeting</div>
+        <div class="ppbe-legend-item"><span class="ppbe-legend-swatch" style="background:var(--ppbe-exec)"></span> Execution / Congressional</div>
       </div>
       <div class="drs-note">
         <strong>Reform in progress.</strong> The Congressional PPBE Reform Commission's 2024 final report recommended replacing PPBE with the <strong>Defense Resourcing System (DRS)</strong> — three phases (Strategy → Resource Allocation → Execution) with continuous analysis. 26 of 28 recommendations are in DoD's implementation plan as of January 2025; full transition expected over several budget cycles. The current PPBE structure remains operative for now.
@@ -1440,7 +1507,7 @@
 </section>
 
 <!-- ========== SECTION 10: ACRONYMS ========== -->
-<section class="content" id="acronyms">
+<section class="section" id="acronyms" data-nav="Acronyms">
   <div class="section-inner">
     <div class="section-header">
       <h2><span class="section-num">§10</span> Acronym dictionary</h2>
@@ -1457,7 +1524,7 @@
 
 <!-- ========== FOOTER ========== -->
 <footer class="colophon">
-  <div class="col-grid">
+  <div class="wrap col-grid">
     <div>
       <h3>Primary sources</h3>
       DoDD 5000.01 "The Defense Acquisition System" (Sept 9, 2020) ·
@@ -1476,26 +1543,12 @@
     <div>
       <h3>Naming</h3>
       Under EO 14347 (Sept 5, 2025), "Department of War" is authorized as a secondary designation for the Department of Defense, "Secretary of War" for SECDEF, etc. The statutory name remains "Department of Defense"; only Congress can change it. Official documents and the comptroller's website (war.gov) increasingly use the secondary name; CRS and other sources flag both.
-
-      <h3>Prototype</h3>
-      v4 · comprehensive build · single-file demo, no dependencies beyond Google Fonts.
-
-      <h3>Contact</h3>
-      <div class="contact-row">
-        <a href="mailto:ponelson@gmail.com">
-          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          ponelson@gmail.com
-        </a>
-        <a href="https://www.linkedin.com/in/ponelson/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          linkedin.com/in/ponelson
-        </a>
-      </div>
     </div>
   </div>
-<div class="section-inner" style="padding-top:18px;">
-  <p style="font-size:11px;line-height:1.65;color:var(--ink-3);max-width:1100px;margin:0;"><strong style="color:var(--ink-2);">Disclaimer.</strong> This site is an independent personal project created for illustrative, educational, and recreational purposes only. It is not an official publication of, endorsed by, or affiliated with the U.S. Department of Defense, any military department, agency, or other government entity. The material is a simplified reference and may be incomplete, outdated, or superseded by controlling statutes, regulations, policies, guidance, solicitations, contracts, or official determinations. It does not constitute legal, procurement, contracting, compliance, security, export-control, or other professional advice. Consult current official sources and qualified professionals before relying on any information for an actual acquisition, procurement, contracting, or compliance matter.</p>
-</div>
+  <div class="wrap" style="padding-top:18px;">
+    <p style="font-size:11px;line-height:1.65;color:var(--ink-3);max-width:1100px;margin:0;"><strong style="color:var(--ink-2);">Disclaimer.</strong> This site is an independent personal project created for illustrative, educational, and recreational purposes only. It is not an official publication of, endorsed by, or affiliated with the U.S. Department of Defense, any military department, agency, or other government entity. The material is a simplified reference and may be incomplete, outdated, or superseded by controlling statutes, regulations, policies, guidance, solicitations, contracts, or official determinations. It does not constitute legal, procurement, contracting, compliance, security, export-control, or other professional advice. Consult current official sources and qualified professionals before relying on any information for an actual acquisition, procurement, contracting, or compliance matter.</p>
+  </div>
+  <p class="verstamp">Integrated Defense Acquisition Reference — v1.0 · build 2026-08-28T05:32-04:00 · supersedes the pre-house-style "Prototype v4" build (same reference content; chrome, tokens, and dark mode rebuilt to house style). First house-style edition.</p>
 </footer>
 
 </div>
@@ -1522,6 +1575,58 @@
 </div>
 
 <script>
+/* theme */
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeToggle'),
+      lbl=document.getElementById('themeLabel'), meta=document.getElementById('themeColorMeta');
+  function read(){ try{return localStorage.getItem('theme');}catch(e){return null;} }
+  function write(v){ try{localStorage.setItem('theme',v);}catch(e){} }
+  function apply(t){
+    root.setAttribute('data-theme',t);
+    if(lbl) lbl.textContent = (t==='dark'?'Light':'Dark');
+    if(btn) btn.setAttribute('aria-pressed', t==='dark' ? 'true':'false');
+    if(meta) meta.setAttribute('content', t==='dark' ? '#0d0d10' : '#f5f5f7');
+  }
+  var saved=read();
+  var initial = saved || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light');
+  apply(initial);
+  if(btn) btn.addEventListener('click',function(){
+    var next = root.getAttribute('data-theme')==='dark' ? 'light':'dark';
+    apply(next); write(next);
+  });
+  if(window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(e){
+    if(!read()) apply(e.matches?'dark':'light');
+  });
+})();
+
+/* nav builds itself from sections */
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('section.section[data-nav]'));
+  var nl=document.getElementById('navlinks'), dr=document.getElementById('drawer'), mb=document.getElementById('menubtn');
+  secs.forEach(function(s){
+    [[nl],[dr]].forEach(function(h){
+      if(!h[0])return;
+      var a=document.createElement('a');
+      a.href='#'+s.id; a.textContent=s.dataset.nav;
+      h[0].appendChild(a);
+    });
+  });
+  if(mb&&dr) mb.addEventListener('click',function(){dr.classList.toggle('open');});
+  if(dr) dr.addEventListener('click',function(e){if(e.target.tagName==='A')dr.classList.remove('open');});
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      [].forEach.call(document.querySelectorAll('#navlinks a'),function(a){
+        a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id);
+      });
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(function(s){io.observe(s);});
+})();
+</script>
+
+<script>
+
 // ============================================================================
 // PATHWAYS
 // ============================================================================
@@ -1908,25 +2013,25 @@ const RDTE_ACTIVITIES = [
 const PPBE_TRACKS = [
   { name: 'White House / OMB',
     events: [
-      { month: 0,  span: 3, label: 'Fiscal Guidance to DoD',         color: '#1e40af' },
-      { month: 11, span: 1, label: 'PB to Congress',                 color: '#4d7c0f' }
+      { month: 0,  span: 3, label: 'Fiscal Guidance to DoD',         color: 'var(--ppbe-plan)' },
+      { month: 11, span: 1, label: 'PB to Congress',                 color: 'var(--ppbe-exec)' }
     ]},
   { name: 'OSD & Joint Staff',
     events: [
-      { month: 0,  span: 3, label: 'Strategy guidance · DPG',        color: '#1e40af' },
-      { month: 7,  span: 4, label: 'Program / Budget Review',        color: '#a16207' },
-      { month: 10, span: 1, label: 'Major Issues',                   color: '#7c2d12' }
+      { month: 0,  span: 3, label: 'Strategy guidance · DPG',        color: 'var(--ppbe-plan)' },
+      { month: 7,  span: 4, label: 'Program / Budget Review',        color: 'var(--ppbe-budget)' },
+      { month: 10, span: 1, label: 'Major Issues',                   color: 'var(--ppbe-prog)' }
     ]},
   { name: 'Mil Depts & Agencies',
     events: [
-      { month: 3,  span: 3, label: 'POM / Budget Formulation',       color: '#7c2d12' },
-      { month: 6,  span: 1, label: 'POM/BES Submit',                 color: '#7c2d12' },
-      { month: 11, span: 1, label: 'FYDP Update',                    color: '#4d7c0f' }
+      { month: 3,  span: 3, label: 'POM / Budget Formulation',       color: 'var(--ppbe-prog)' },
+      { month: 6,  span: 1, label: 'POM/BES Submit',                 color: 'var(--ppbe-prog)' },
+      { month: 11, span: 1, label: 'FYDP Update',                    color: 'var(--ppbe-exec)' }
     ]},
   { name: 'Congress',
     events: [
-      { month: 1,  span: 6, label: 'Hearings, NDAA & Approps markup', color: '#4d7c0f' },
-      { month: 8,  span: 1, label: 'Bills passed (target)',          color: '#4d7c0f' }
+      { month: 1,  span: 6, label: 'Hearings, NDAA & Approps markup', color: 'var(--ppbe-exec)' },
+      { month: 8,  span: 1, label: 'Bills passed (target)',          color: 'var(--ppbe-exec)' }
     ]}
 ];
 
@@ -2160,7 +2265,7 @@ function renderPathwayGrid() {
   const grid = document.getElementById('pathway-grid');
   grid.innerHTML = PATHWAYS.map(pw => `
     <div class="pathway-card ${pw.id === activePathwayId ? 'active' : ''}"
-         style="--p-color: ${cssVar(pw.color)}"
+         style="--p-color: var(${pw.color})"
          data-pathway="${pw.id}">
       <div class="pw-num">${pw.num}</div>
       <div class="pw-name">${pw.name}</div>
@@ -2181,8 +2286,7 @@ function renderPathwayGrid() {
 function renderPathwayDetail() {
   const pw = PATHWAYS.find(p => p.id === activePathwayId);
   const detail = document.getElementById('pathway-detail');
-  const color = cssVar(pw.color);
-  detail.style.setProperty('--p-color', color);
+  detail.style.setProperty('--p-color', `var(${pw.color})`);
 
   let gatesHtml = '';
   if (pw.gates && pw.gates.length > 0) {
@@ -2247,7 +2351,7 @@ function renderPathwayDetail() {
 function renderCrossFAs() {
   const grid = document.getElementById('xfa-grid');
   grid.innerHTML = CROSS_FAS.map((fa, i) => `
-    <div class="xfa-card" style="--xfa-color: ${cssVar(fa.color)}" data-xfa-idx="${i}">
+    <div class="xfa-card" style="--xfa-color: var(${fa.color})" data-xfa-idx="${i}">
       <div class="xfa-header">
         <div class="xfa-name">${fa.name}</div>
         <div class="xfa-code">${fa.code}</div>
@@ -2425,7 +2529,7 @@ function renderBudget() {
       const width = (s.amount / maxService * 100).toFixed(1);
       const estimate = s.estimate ? ' <span style="font-size:9px; color:var(--ink-3); font-style:italic;">est.</span>' : '';
       return `
-        <div class="bar-row" style="--b-color:${cssVar(s.color)}"
+        <div class="bar-row" style="--b-color:var(${s.color})"
              data-service="${s.name}">
           <div class="bar-label">
             ${s.name}${estimate}
@@ -2448,7 +2552,7 @@ function renderBudget() {
       const width = (a.dollars / maxApprop * 100).toFixed(1);
       const estimate = a.estimate ? ' <span style="font-size:9px; color:var(--ink-3); font-style:italic;">est.</span>' : '';
       return `
-        <div class="bar-row" style="--b-color:${cssVar(a.color)}"
+        <div class="bar-row" style="--b-color:var(${a.color})"
              data-approp="${a.code}">
           <div class="bar-label">
             ${a.name}${estimate}
@@ -2631,7 +2735,7 @@ function closePanel() { panel.classList.remove('open'); }
 function openPhase(pw, phase) {
   openPanel({
     tag: `${pw.name} · Phase ${phase.n}`,
-    tagColor: cssVar(pw.color),
+    tagColor: `var(${pw.color})`,
     title: phase.name,
     subtitle: pw.statute,
     body: `<p>${withAcronyms(phase.purpose)}</p>`
@@ -2641,7 +2745,7 @@ function openPhase(pw, phase) {
 function openGate(pw, gate) {
   openPanel({
     tag: `${pw.name} · Decision Gate`,
-    tagColor: cssVar(pw.color),
+    tagColor: `var(${pw.color})`,
     title: gate.full,
     subtitle: gate.name,
     body: `<p>${withAcronyms(gate.desc)}</p>`
@@ -2651,7 +2755,7 @@ function openGate(pw, gate) {
 function openFA(pw, fa) {
   openPanel({
     tag: `${pw.name} · Functional Area`,
-    tagColor: cssVar(pw.color),
+    tagColor: `var(${pw.color})`,
     title: fa.name,
     subtitle: '',
     body: `<p>${withAcronyms(fa.detail)}</p>`
@@ -2661,7 +2765,7 @@ function openFA(pw, fa) {
 function openCrossFA(fa) {
   openPanel({
     tag: `Cross-cutting · ${fa.code}`,
-    tagColor: cssVar(fa.color),
+    tagColor: `var(${fa.color})`,
     title: fa.name,
     subtitle: fa.statute,
     body: `<p>${withAcronyms(fa.desc)}</p>`
@@ -2671,7 +2775,7 @@ function openCrossFA(fa) {
 function openJFRP(node) {
   openPanel({
     tag: `JFRP · ${node.tag}`,
-    tagColor: cssVar('--accent'),
+    tagColor: 'var(--accent)',
     title: node.name,
     subtitle: node.code,
     body: `<p>${withAcronyms(node.detail)}</p>`
@@ -2681,7 +2785,7 @@ function openJFRP(node) {
 function openReview(r) {
   openPanel({
     tag: `Technical Review · ${r.phase}`,
-    tagColor: cssVar('--ink'),
+    tagColor: 'var(--ink)',
     title: r.name,
     subtitle: r.code,
     body: `<p>${withAcronyms(TECH_REVIEW_DETAILS[r.code])}</p>`
@@ -2692,7 +2796,7 @@ function openService(s, data) {
   const pct = (s.amount / data.totalDoD * 100).toFixed(1);
   openPanel({
     tag: `${data.label} · Service`,
-    tagColor: cssVar(s.color),
+    tagColor: `var(${s.color})`,
     title: s.name,
     subtitle: s.detail || '',
     body: `<p>Requested/enacted: <strong>$${s.amount} billion</strong> (${pct}% of $${data.totalDoD}B DoD total).</p>
@@ -2704,7 +2808,7 @@ function openAppropriation(a, data) {
   const pct = (a.dollars / data.totalDiscretionary * 100).toFixed(1);
   openPanel({
     tag: `${data.label} · Appropriation`,
-    tagColor: cssVar(a.color),
+    tagColor: `var(${a.color})`,
     title: a.name,
     subtitle: a.code,
     body: `<p><strong>$${a.dollars} billion</strong> — ~${pct}% of DoD discretionary.</p>
@@ -2784,6 +2888,7 @@ renderPPBE();
 renderAcronyms();
 setupAcronymTooltips();
 setupGlobalSearch();
+
 </script>
 </body>
 </html>
